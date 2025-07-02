@@ -1,0 +1,146 @@
+CREATE SCHEMA IF NOT EXISTS `scoobyPaseo` DEFAULT CHARACTER SET utf8;
+USE `scoobyPaseo`;
+
+CREATE TABLE IF NOT EXISTS `paseador` (
+  `idPaseador` INT NOT NULL,
+  `nombre` VARCHAR(45) NOT NULL,
+  `apellido` VARCHAR(45) NOT NULL,
+  `foto` TEXT NOT NULL,
+  `descripcion` VARCHAR(45) NOT NULL,
+  `disponibilidad` VARCHAR(25) NOT NULL,
+  `correo` VARCHAR(45) NOT NULL,
+  `telefono` VARCHAR(45) NOT NULL,
+  `clave` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idPaseador`)
+) ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `dueño` (
+  `idDueño` INT NOT NULL,
+  `nombre` VARCHAR(45) NOT NULL,
+  `apellido` VARCHAR(45) NOT NULL,
+  `foto` TEXT NULL,
+  `correo` VARCHAR(45) NOT NULL,
+  `telefono` VARCHAR(45) NOT NULL,
+  `clave` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idDueño`)
+) ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `tamaño` (
+  `idTamaño` INT NOT NULL,
+  `tamaño` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idTamaño`)
+) ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `perro` (
+  `idPerro` INT NOT NULL,
+  `nombre` VARCHAR(45) NOT NULL,
+  `foto` TEXT NOT NULL,
+  `tamaño_idTamaño` INT NOT NULL,
+  `dueño_idDueño` INT NOT NULL,
+  PRIMARY KEY (`idPerro`),
+  INDEX `fk_perro_tamaño_idx` (`tamaño_idTamaño`),
+  INDEX `fk_perro_dueño1_idx` (`dueño_idDueño`),
+  CONSTRAINT `fk_perro_tamaño`
+    FOREIGN KEY (`tamaño_idTamaño`)
+    REFERENCES `tamaño` (`idTamaño`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_perro_dueño1`
+    FOREIGN KEY (`dueño_idDueño`)
+    REFERENCES `dueño` (`idDueño`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+) ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `estado_paseo` (
+  `idEstadoPaseo` INT NOT NULL,
+  `estado` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idEstadoPaseo`)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS `paseo` (
+  `idPaseo` INT NOT NULL AUTO_INCREMENT,
+  `fecha` DATE NOT NULL,
+  `hora` TIME NOT NULL,
+  `tarifa` VARCHAR(45) NULL,
+  `paseador_idPaseador` INT NOT NULL,
+  `estado_paseo_idEstadoPaseo` INT NOT NULL DEFAULT 1,
+  PRIMARY KEY (`idPaseo`),
+  INDEX `fk_paseo_paseador1_idx` (`paseador_idPaseador`),
+  INDEX `fk_paseo_estado_paseo_idx` (`estado_paseo_idEstadoPaseo`),
+  CONSTRAINT `fk_paseo_paseador1`
+    FOREIGN KEY (`paseador_idPaseador`)
+    REFERENCES `paseador` (`idPaseador`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_paseo_estado_paseo`
+    FOREIGN KEY (`estado_paseo_idEstadoPaseo`)
+    REFERENCES `estado_paseo` (`idEstadoPaseo`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+) ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `paseo_has_perro` (
+  `paseo_idPaseo` INT NOT NULL,
+  `perro_idPerro` INT NOT NULL,
+  PRIMARY KEY (`paseo_idPaseo`, `perro_idPerro`),
+  INDEX `fk_paseo_has_perro_perro1_idx` (`perro_idPerro`),
+  INDEX `fk_paseo_has_perro_paseo1_idx` (`paseo_idPaseo`),
+  CONSTRAINT `fk_paseo_has_perro_paseo1`
+    FOREIGN KEY (`paseo_idPaseo`)
+    REFERENCES `paseo` (`idPaseo`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_paseo_has_perro_perro1`
+    FOREIGN KEY (`perro_idPerro`)
+    REFERENCES `perro` (`idPerro`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+) ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `admin` (
+  `idDueño` INT NOT NULL,
+  `nombre` VARCHAR(45) NOT NULL,
+  `apellido` VARCHAR(45) NOT NULL,
+  `foto` TEXT NULL,
+  `correo` VARCHAR(45) NOT NULL,
+  `telefono` VARCHAR(45) NOT NULL,
+  `clave` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idDueño`)
+) ENGINE = InnoDB;
+
+CREATE TABLE dias (
+    idDia INT PRIMARY KEY,
+    nombre VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE disponibilidad (
+    idDisponibilidad INT AUTO_INCREMENT PRIMARY KEY,
+    idPaseador INT NOT NULL,
+    idDia INT NOT NULL,
+    horaInicio TIME NOT NULL,
+    horaFin TIME NOT NULL,
+    FOREIGN KEY (idPaseador) REFERENCES paseador(idPaseador),
+    FOREIGN KEY (idDia) REFERENCES dias(idDia)
+);
+
+
+
+CREATE TABLE IF NOT EXISTS `estadoPaseador` (
+  `idEstado` INT NOT NULL AUTO_INCREMENT,
+  `estado` VARCHAR(20) NOT NULL, 
+  PRIMARY KEY (`idEstado`)
+) ENGINE = InnoDB;
+
+
+ALTER TABLE `paseador`
+ADD COLUMN `idEstado` INT NULL;
+
+UPDATE `paseador` SET `idEstado` = 1;
+
+ALTER TABLE `paseador`
+ADD CONSTRAINT `fk_paseador_estado`
+  FOREIGN KEY (`idEstado`)
+  REFERENCES `estados` (`idEstado`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
