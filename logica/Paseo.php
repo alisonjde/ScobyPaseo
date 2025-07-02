@@ -106,4 +106,27 @@ class Paseo
         $conexion->cerrar();
         return $cantidad;
     }
+
+    public function consultarPorPaseador($idPaseador)
+    {
+        $conexion = new Conexion();
+        $paseoDAO = new PaseoDAO();
+        $conexion->abrir();
+        $conexion->ejecutar($paseoDAO->consultarPorPaseador($idPaseador));
+
+        $paseos = array();
+        while ($datos = $conexion->registro()) {
+            $paseo = new Paseo(
+                $datos[0],
+                $datos[1],
+                $datos[2],
+                $datos[3],
+                $idPaseador
+            );
+            array_push($paseos, $paseo);
+        }
+
+        $conexion->cerrar();
+        return $paseos;
+    }
 }
