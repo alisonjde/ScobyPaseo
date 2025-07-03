@@ -2,6 +2,10 @@
     <?php
     $id = $_SESSION["id"];
     $rol = $_SESSION["rol"];
+    if ($rol == "admin") {
+    header("Location: ?pid=" . base64_encode("presentacion/paseito/consultarPaseoAdmin.php"));
+    exit();
+}
     include("presentacion/fondo.php");
     include("presentacion/" . $rol . "/menu" . ucfirst($rol) . ".php");
     ?>

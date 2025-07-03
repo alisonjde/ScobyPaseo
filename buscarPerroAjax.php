@@ -7,7 +7,7 @@ $perro = new Perro();
 $perros = $perro->buscar($filtros);
 
 if (count($perros) > 0) {
-    $patron = '/(' . implode('|', $filtros) . ')/i';  // Patrón para resaltar
+    $patron = '/(' . implode('|', $filtros) . ')/i';
 
     foreach ($perros as $per) {
 

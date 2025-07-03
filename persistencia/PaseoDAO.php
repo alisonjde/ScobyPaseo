@@ -65,4 +65,39 @@ class PaseoDAO
                 WHERE estado_paseo_idEstadoPaseo= 1 
                 AND paseador_idPaseador = " . $this->idPaseador;
     }
+
+    public function buscar($filtros) {
+    $condiciones = [];
+    foreach ($filtros as $filtro) {
+        $condiciones[] = "(
+            p.fecha LIKE '%$filtro%' OR
+            pa.nombre LIKE '%$filtro%' OR
+            pa.apellido LIKE '%$filtro%' OR
+            pe.nombre LIKE '%$filtro%' OR
+            d.nombre LIKE '%$filtro%' OR
+            d.apellido LIKE '%$filtro%' OR
+            e.estado LIKE '%$filtro%'
+        )";
+    }
+
+    $consulta = implode(" AND ", $condiciones);
+
+    $sentencia = "SELECT 
+                    p.idPaseo, p.tarifa, p.fecha, p.hora, 
+                    pa.idPaseador, pa.nombre, pa.apellido, 
+                    pe.idPerro, pe.nombre, 
+                    d.idDueño, d.nombre, d.apellido, 
+                    e.idEstadoPaseo, e.estado
+                FROM paseo p
+                JOIN paseador pa ON p.paseador_idPaseador = pa.idPaseador
+                JOIN estado_paseo e ON p.estado_paseo_idEstadoPaseo = e.idEstadoPaseo
+                JOIN paseo_has_perro pp ON p.idPaseo = pp.paseo_idPaseo
+                JOIN perro pe ON pe.idPerro = pp.perro_idPerro
+                JOIN dueño d ON d.idDueño = pe.dueño_idDueño
+                WHERE $consulta
+                ORDER BY p.fecha DESC, p.hora DESC";
+
+    return $sentencia;
+}
+
 }
