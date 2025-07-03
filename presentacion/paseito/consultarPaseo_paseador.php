@@ -13,9 +13,18 @@ include("presentacion/fondo.php");
 
     ?>
 
-    <div class="text-center py-3 hero-text">
+    <div class="text-center py-3 ">
+
+
+
         <div class="container glass py-3">
             <h1 class="display-6">Listado de Paseos</h1>
+
+            <div class="mb-4 text-center">
+                <input type="text" id="filtro" class="form-control w-50 mx-auto"
+                    placeholder="Buscar perro por nombres, ids...">
+            </div>
+
 
             <div class="table-responsive">
                 <table class="table table-custom table-hover text-light">
@@ -24,15 +33,14 @@ include("presentacion/fondo.php");
                             <th>Fecha</th>
                             <th>Hora</th>
                             <th>Tarifa</th>
-                            <?php
-                            if ($rol != "paseador") {
-                            ?>
+                            <th>Perro</th>
+                            <th>Dueño</th>
+                            <?php if ($rol != "paseador") { ?>
                                 <th>Paseador</th>
-                            <?php
-                            } ?>
+                            <?php } ?>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="tablaPaseos">
                         <?php
                         $paseo = new Paseo();
 
@@ -44,7 +52,6 @@ include("presentacion/fondo.php");
                             $paseos = $paseo->consultarTodos();
                         }
 
-
                         foreach ($paseos as $paseo) {
                             $fechaFormateada = date("d/m/Y", strtotime($paseo->getFecha()));
                             $horaFormateada = date("H:i", strtotime($paseo->getHora()));
@@ -53,20 +60,39 @@ include("presentacion/fondo.php");
                                 <td><?php echo htmlspecialchars($fechaFormateada) ?></td>
                                 <td><?php echo htmlspecialchars($horaFormateada) ?></td>
                                 <td><span class="tarifa-badge">$<?php echo number_format($paseo->getTarifa(), 2) ?></span></td>
-                                <?php
-                                if ($rol != "paseador") {
-                                ?>
+                                <td><?php echo htmlspecialchars($paseo->getPerro()->getNombre()); ?></td>
+                                <td><?php echo htmlspecialchars(
+                                        $paseo->getPerro()->getIdDueño()->getNombre() . ' ' .
+                                            $paseo->getPerro()->getIdDueño()->getApellido()
+                                    ); ?></td>
+                                <?php if ($rol != "paseador") { ?>
                                     <td><?php echo htmlspecialchars($paseo->getIdPaseador()->getNombre()) ?></td>
-                                <?php
-                                }
-                                ?>
+                                <?php } ?>
                             </tr>
                         <?php } ?>
                     </tbody>
+
                 </table>
             </div>
         </div>
     </div>
+
+
+
+ <script>
+    $(document).ready(function () {
+        $("#filtro").keyup(function () {
+            let texto = $("#filtro").val().trim();
+            const idPaseador = <?php echo json_encode($_SESSION["id"]); ?>;
+
+            
+            if (texto.length === 0 || texto.length > 2) {
+                const ruta = "ConfirmarPaseaAjax.php?filtro=" + encodeURIComponent(texto) + "&id=" + idPaseador;
+                $("#tablaPaseos").load(ruta);
+            }
+        });
+    });
+</script>
 
 
 

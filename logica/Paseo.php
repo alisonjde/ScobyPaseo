@@ -2,6 +2,9 @@
 require_once("persistencia/Conexion.php");
 require_once("persistencia/PaseoDAO.php");
 require_once("logica/Paseador.php");
+require_once("logica/Dueño.php");
+require_once("logica/Perro.php");
+
 
 class Paseo
 {
@@ -12,8 +15,9 @@ class Paseo
     private $idPaseador;
     private $idEstadoPaseo;
     private $paseador;
+    private $perro;
 
-    public function __construct($idPaseo = "", $tarifa = 0, $fecha = "", $hora = "", $idPaseador = "", $idEstadoPaseo = "")
+    public function __construct($idPaseo = "", $tarifa = 0, $fecha = "", $hora = "", $idPaseador = "", $idEstadoPaseo = "", $perro = null)
     {
         $this->idPaseo = $idPaseo;
         $this->fecha = $fecha;
@@ -21,6 +25,7 @@ class Paseo
         $this->tarifa = $tarifa;
         $this->idPaseador = $idPaseador;
         $this->idEstadoPaseo = $idEstadoPaseo;
+        $this->perro = $perro;
     }
 
     public function getIdPaseo()
@@ -50,6 +55,10 @@ class Paseo
     public function getPaseador()
     {
         return $this->paseador;
+    }
+    public function getPerro()
+    {
+        return $this->perro;
     }
 
     // Métodos de negocio
@@ -116,13 +125,43 @@ class Paseo
 
         $paseos = array();
         while ($datos = $conexion->registro()) {
+
+            $dueño = new Dueño($datos[6], $datos[7], $datos[8]);
+
+
+            $perro = new Perro($datos[4], $datos[5], null, null, $dueño);
+
+
             $paseo = new Paseo(
                 $datos[0],
+                $datos[3],
                 $datos[1],
                 $datos[2],
-                $datos[3],
-                $idPaseador
+                $idPaseador,
+                "",
+                $perro
             );
+
+            array_push($paseos, $paseo);
+        }
+
+        $conexion->cerrar();
+        return $paseos;
+    }
+
+
+    public function buscarPorPaseador($filtros, $idPaseador)
+    {
+        $conexion = new Conexion();
+        $conexion->abrir();
+        $paseoDAO = new PaseoDAO();
+        $conexion->ejecutar($paseoDAO->buscarPorPaseador($filtros, $idPaseador));
+
+        $paseos = [];
+        while ($datos = $conexion->registro()) {
+            $dueño = new Dueño(null, $datos[4], $datos[5]); // nombre y apellido
+            $perro = new Perro(null, $datos[3], null, null, $dueño); // nombre
+            $paseo = new Paseo(null, $datos[2], $datos[0], $datos[1], $idPaseador, "", $perro);
             array_push($paseos, $paseo);
         }
 
