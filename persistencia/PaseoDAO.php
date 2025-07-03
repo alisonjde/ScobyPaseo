@@ -14,13 +14,31 @@ class PaseoDAO {
         $this->idPaseador = $idPaseador;
     }
     
-    public function consultarTodos() {
-        return "SELECT p.idPaseo, p.tarifa, p.fecha, p.hora,
-                       pa.nombre, pa.nombre as nombre_paseador
-                FROM paseo p
-                JOIN paseador pa ON p.paseador_idPaseador = pa.idPaseador
-                ORDER BY p.fecha DESC, p.hora DESC";
+    public function consultarTodos($id, $rol) {
+    $sentencia = "SELECT 
+                    p.idPaseo, p.tarifa, p.fecha, p.hora, 
+                    pa.idPaseador, pa.nombre, pa.apellido, 
+                    pe.idPerro, pe.nombre, 
+                    d.idDueño, d.nombre, d.apellido, 
+                    e.idEstadoPaseo, e.estado
+                    FROM paseo p
+                    JOIN paseador pa ON p.paseador_idPaseador = pa.idPaseador
+                    JOIN estado_paseo e ON p.estado_paseo_idEstadoPaseo = e.idEstadoPaseo
+                    JOIN paseo_has_perro pp ON p.idPaseo = pp.paseo_idPaseo
+                    JOIN perro pe ON pe.idPerro = pp.perro_idPerro
+                    JOIN dueño d ON d.idDueño = pe.dueño_idDueño";
+
+    if ($rol == "paseador") {
+        $sentencia .= " WHERE pa.idPaseador = " . $id;
+    } else if ($rol == "dueño") {
+        $sentencia .= " WHERE d.idDueño = " . $id;
     }
+
+    $sentencia .= " ORDER BY p.fecha DESC, p.hora DESC";
+
+    return $sentencia;
+}
+
     
     public function consultarPorPaseador($idPaseador) {
         return "SELECT p.idPaseo, p.tarifa, p.fecha, p.hora

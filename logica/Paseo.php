@@ -11,9 +11,9 @@ class Paseo
     private $hora;
     private $idPaseador;
     private $idEstadoPaseo;
-    private $paseador;
+    private $perro;
 
-    public function __construct($idPaseo = "", $tarifa = 0, $fecha = "", $hora = "", $idPaseador = "", $idEstadoPaseo = "")
+    public function __construct($idPaseo = "", $tarifa = 0, $fecha = "", $hora = "", $idPaseador = "", $idEstadoPaseo = "", $perro="")
     {
         $this->idPaseo = $idPaseo;
         $this->fecha = $fecha;
@@ -21,7 +21,8 @@ class Paseo
         $this->tarifa = $tarifa;
         $this->idPaseador = $idPaseador;
         $this->idEstadoPaseo = $idEstadoPaseo;
-    }
+        $this->perro = $perro;
+        }
 
     public function getIdPaseo()
     {
@@ -47,28 +48,35 @@ class Paseo
     {
         return $this->idPaseador;
     }
-    public function getPaseador()
+    public function getEstadoPaseo()
     {
-        return $this->paseador;
+        return $this->idEstadoPaseo;
     }
-
-    // Métodos de negocio
-    public function consultarTodos()
+    public function getPerro()
+    {
+        return $this->perro;
+    }
+    public function consultarTodos($id, $rol)
     {
         $conexion = new Conexion();
         $paseoDAO = new PaseoDAO();
         $conexion->abrir();
-        $conexion->ejecutar($paseoDAO->consultarTodos());
+        $conexion->ejecutar($paseoDAO->consultarTodos($id, $rol));
 
         $paseos = array();
         while ($datos = $conexion->registro()) {
-            $paseador = new Paseador($datos[4], $datos[5], "", "", "", "", "", "", "", "");
+            $paseador = new Paseador($datos[4], $datos[5], $datos[6], "", "", "", "", "", "", "");
+            $dueño = new Dueño($datos[9],$datos[10],$datos[11]);
+            $perro = new Perro($datos[7],$datos[8],"","",$dueño);
+            $estadoPaseo = new EstadoPaseo($datos[12],$datos[13]);
             $paseo = new Paseo(
                 $datos[0],
                 $datos[1],
                 $datos[2],
                 $datos[3],
-                $paseador
+                $paseador,
+                $estadoPaseo,
+                $perro
             );
             array_push($paseos, $paseo);
         }

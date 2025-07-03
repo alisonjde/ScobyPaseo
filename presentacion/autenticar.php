@@ -45,11 +45,10 @@ if (isset($_POST["autenticar"])) {
     ?>
 
     <div class="login-container glass mx-auto p-4" style="max-width: 450px; margin-top: 5rem;">
-        <div class="text-center mb-4">
-            <div class="logo mb-3" style="font-size: 2.5rem; color: #c5f5dc;">
-                <i class="fas fa-paw me-2"></i>Perritours
-            </div>
-            <h4 class="text-white">Iniciar Sesión</h4>
+        <div class="text-center mb-4">  
+                <div class="border rounded" style="border-color: white; background:rgba(30, 90, 20, 0.7);">
+                    <div class="logo mb-3" style="font-size: 2.5rem; color: white;"><i class="fas fa-paw me-2"></i>ScoobyPaseo</div>
+                </div>            
         </div>
 
         <form action="?pid=<?php echo base64_encode("presentacion/autenticar.php") ?>" method="POST" class="px-3">

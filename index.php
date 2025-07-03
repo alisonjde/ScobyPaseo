@@ -5,6 +5,7 @@ require ("logica/Dueño.php");
 require ("logica/Paseador.php");
 require ("logica/Perro.php");
 require ("logica/Paseo.php");
+require ("logica/EstadoPaseo.php");
 ?>
 <!DOCTYPE html>
 <html lang="es">
