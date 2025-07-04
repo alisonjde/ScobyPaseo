@@ -74,7 +74,20 @@ class Paseador extends Persona
         $conexion->ejecutar($paseadorDAO->consultarTodos());
         $paseadores = array();
         while ($datos = $conexion->registro()) {
-            $paseador = new Paseador($datos[0], $datos[1], $datos[2], $datos[3], $datos[4], $datos[5], "", $datos[6]);
+            $estadoPaseador = new EstadoPaseador($datos[7], $datos[8]);
+            $paseador = new Paseador(
+                $datos[0],  // id
+                $datos[1],  // nombre
+                $datos[2],  // apellido
+                $datos[3],  // foto
+                $datos[4],  // correo
+                $datos[5],  // telefono
+                "",         // clave
+                $datos[6],  // descripcion
+                "",         // disponibilidad
+                $estadoPaseador // EstadoPaseador (objeto)
+            );
+
             array_push($paseadores, $paseador);
         }
         $conexion->cerrar();
@@ -172,21 +185,36 @@ class Paseador extends Persona
 
 
     public function modificar($filtros)
-    {
-        $conexion = new Conexion();
-        $conexion->abrir();
-        $paseadorDAO = new PaseadorDAO();
-        $conexion->ejecutar($paseadorDAO->modificar($filtros));
+{
+    $conexion = new Conexion();
+    $conexion->abrir();
+    $paseadorDAO = new PaseadorDAO();
+    $conexion->ejecutar($paseadorDAO->modificar($filtros));
 
-        $paseadores = array();
-        while (($datos = $conexion->registro()) != null) {
-            $paseador = new Paseador($datos[0], $datos[1], $datos[2], $datos[3], $datos[4], $datos[5]);
-            array_push($paseadores, $paseador);
-        }
+    $paseadores = array();
+    while (($datos = $conexion->registro()) != null) {
+        $estadoPaseador = new EstadoPaseador($datos[7], $datos[8]);
 
-        $conexion->cerrar();
-        return $paseadores;
+        $paseador = new Paseador(
+            $datos[0],  // id
+            $datos[1],  // nombre
+            $datos[2],  // apellido
+            $datos[3],  // foto
+            $datos[4],  // correo
+            $datos[5],  // telefono
+            "",         // clave
+            $datos[6],  // descripcion
+            "",         // disponibilidad
+            $estadoPaseador
+        );
+
+        array_push($paseadores, $paseador);
     }
+
+    $conexion->cerrar();
+    return $paseadores;
+}
+
 
     public function modificarAceptar($filtros)
     {
@@ -264,19 +292,20 @@ class Paseador extends Persona
     }
 
 
-    public function eliminar()
-    {
-        $conexion = new Conexion();
-        $paseadorDAO = new PaseadorDAO($this->id);
-        $conexion->abrir();
-        $conexion->ejecutar($paseadorDAO->eliminar());
-        $resultado = true;
+    public function cambiarEstado($estadoNuevo){
+    $conexion = new Conexion();
+    $paseadorDAO = new PaseadorDAO($this->id);
 
-        $conexion->cerrar();
+    $conexion->abrir();
+    $conexion->ejecutar($paseadorDAO->cambiarEstado($estadoNuevo));
+
+    
+
+    $conexion->cerrar();
+
+}
 
 
-        return $resultado;
-    }
 
     public function actualizarEstado($estadoNuevo)
     {
@@ -288,25 +317,25 @@ class Paseador extends Persona
         return $resultado;
     }
 
-   public function obtenerEstados()
-{
-    $conexion = new Conexion();
-    $conexion->abrir();
-    $paseadorDAO = new PaseadorDAO();
+    public function obtenerEstados()
+    {
+        $conexion = new Conexion();
+        $conexion->abrir();
+        $paseadorDAO = new PaseadorDAO();
 
-    $estados = array();
+        $estados = array();
 
-    if ($conexion->ejecutar($paseadorDAO->consultarEstados())) {
-        while (($datos = $conexion->registro()) != null) {
-            $estados[] = array(
-                "id" => $datos[0],
-                "nombre" => $datos[1]
-            );
+        if ($conexion->ejecutar($paseadorDAO->consultarEstados())) {
+            while (($datos = $conexion->registro()) != null) {
+                $estados[] = array(
+                    "id" => $datos[0],
+                    "nombre" => $datos[1]
+                );
+            }
         }
-    }
 
-    $conexion->cerrar();
-    return $estados;
-}
+        $conexion->cerrar();
+        return $estados;
+    }
 
 }

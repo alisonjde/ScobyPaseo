@@ -1,5 +1,9 @@
 <body>
     <?php
+    if (!isset($_SESSION["rol"])) {
+    header("Location: ?pid=" . base64_encode("presentacion/inicio.php"));
+    exit();
+}
     $id = $_SESSION["id"];
     $rol = $_SESSION["rol"];
     include("presentacion/fondo.php");

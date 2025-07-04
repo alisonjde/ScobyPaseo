@@ -4,7 +4,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
-        <a class="navbar-brand fs-4" href="?pid=<?php echo base64_encode("presentacion/sesionPaseador.php") ?>">
+        <a title="sesion de usuario" class="navbar-brand fs-4" href="?pid=<?php echo base64_encode("presentacion/sesionPaseador.php") ?>">
             <img src="imagenes/logo.png" alt="Logo" style="height: 50px; width: auto; margin-right: 10px;">
             Scooby-Paseo
         </a>

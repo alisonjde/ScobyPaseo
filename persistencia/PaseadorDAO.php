@@ -43,8 +43,9 @@ class PaseadorDAO
 
     public function consultarTodos()
     {
-        return "SELECT idPaseador, nombre, apellido, foto, correo, telefono, descripcion
-            FROM paseador
+        return "SELECT p.idPaseador, p.nombre, p.apellido, p.foto, p.correo, p.telefono, p.descripcion, e.idEstado, e.estado
+            FROM paseador p
+            JOIN estadopaseador e ON p.idEstado = e.idEstado
             ORDER BY idPaseador";
     }
 
@@ -87,27 +88,29 @@ class PaseadorDAO
             WHERE idPaseador = '" . $this->id . "'";
     }
 
-    public function eliminar()
-    {
-        return "DELETE FROM paseador WHERE idPaseador = '" . $this->id . "'";
+    public function cambiarEstado($estadoNuevo)
+    {  
+        return "UPDATE paseador SET idEstado = $estadoNuevo WHERE idPaseador = " . $this->id;
     }
 
 
 
     public function modificar($filtros)
-    {
-        $condiciones = [];
-        foreach ($filtros as $filtro) {
-            $condiciones[] = "(nombre LIKE '%$filtro%' OR apellido LIKE '%$filtro%' OR correo LIKE '%$filtro%' OR telefono LIKE '%$filtro%')";
-        }
-
-        $consulta = implode("AND", $condiciones);
-
-        $sentencia = "SELECT idPaseador, nombre, apellido, foto, correo, telefono
-                FROM paseador
-                WHERE $consulta";
-        return $sentencia;
+{
+    $condiciones = [];
+    foreach ($filtros as $filtro) {
+        $condiciones[] = "(p.nombre LIKE '%$filtro%' OR p.apellido LIKE '%$filtro%' OR p.correo LIKE '%$filtro%' OR p.telefono LIKE '%$filtro%')";
     }
+
+    $consultaFiltros = implode(" AND ", $condiciones);
+
+    return "SELECT p.idPaseador, p.nombre, p.apellido, p.foto, p.correo, p.telefono, p.descripcion, e.idEstado, e.estado
+            FROM paseador p
+            JOIN estadopaseador e ON p.idEstado = e.idEstado
+            WHERE $consultaFiltros
+            ORDER BY p.idPaseador";
+}
+
 
     public function modificarAceptar($filtros)
     {
