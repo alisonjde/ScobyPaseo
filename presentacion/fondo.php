@@ -109,7 +109,7 @@
   }
 
   .table-custom tr:hover {
-    background-color: rgb(255, 0, 0);
+    background-color: rgb(13, 88, 13);
     transition: background-color 0.3s ease;
   }
 

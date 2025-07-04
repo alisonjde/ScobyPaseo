@@ -76,16 +76,16 @@ class Paseador extends Persona
         while ($datos = $conexion->registro()) {
             $estadoPaseador = new EstadoPaseador($datos[7], $datos[8]);
             $paseador = new Paseador(
-                $datos[0],  // id
-                $datos[1],  // nombre
-                $datos[2],  // apellido
-                $datos[3],  // foto
-                $datos[4],  // correo
-                $datos[5],  // telefono
-                "",         // clave
-                $datos[6],  // descripcion
-                "",         // disponibilidad
-                $estadoPaseador // EstadoPaseador (objeto)
+                $datos[0],
+                $datos[1],
+                $datos[2],
+                $datos[3],
+                $datos[4],
+                $datos[5],
+                "",
+                $datos[6],
+                "",
+                $estadoPaseador
             );
 
             array_push($paseadores, $paseador);
@@ -196,15 +196,15 @@ class Paseador extends Persona
         $estadoPaseador = new EstadoPaseador($datos[7], $datos[8]);
 
         $paseador = new Paseador(
-            $datos[0],  // id
-            $datos[1],  // nombre
-            $datos[2],  // apellido
-            $datos[3],  // foto
-            $datos[4],  // correo
-            $datos[5],  // telefono
-            "",         // clave
-            $datos[6],  // descripcion
-            "",         // disponibilidad
+            $datos[0],
+            $datos[1],
+            $datos[2],
+            $datos[3],
+            $datos[4],
+            $datos[5],
+            "",
+            $datos[6],
+            "",
             $estadoPaseador
         );
 

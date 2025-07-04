@@ -6,14 +6,13 @@ if ($_SESSION["rol"] != "admin") {
 include("presentacion/fondo.php");
 include("presentacion/admin/menuAdmin.php");
 
+require_once("logica/Paseador.php");
+
 $paseador = new Paseador();
 $paseadores = $paseador->consultarTodos();
 ?>
 
-
 <body>
-
-
     <div class="text-center py-3 hero-text">
         <div class="container glass py-3">
             <h1 class="display-6">Listado de Paseadores</h1>
@@ -37,94 +36,45 @@ $paseadores = $paseador->consultarTodos();
                         </tr>
                     </thead>
                     <tbody>
-                        <?php
-
-                        foreach ($paseadores as $pas) {
-                            if ($pas->getEstadoPaseador()->getIdEstadoPaseador() != 3) {
+                        <?php foreach ($paseadores as $pas):
+                            if ($pas->getEstadoPaseador()->getIdEstadoPaseador() != 3):
+                                $estadoId = $pas->getEstadoPaseador()->getIdEstadoPaseador();
+                                $estadoNombre = $pas->getEstadoPaseador()->getEstado();
+                                $claseEstado = ($estadoId == 1) ? "text-success" : (($estadoId == 2) ? "text-danger" : "text-secondary");
                                 ?>
                                 <tr id="paseador-<?php echo $pas->getId(); ?>">
                                     <td>
-                                        <img src="<?php echo htmlspecialchars($pas->getFoto()) ?>" class="rounded-circle"
+                                        <img src="<?php echo htmlspecialchars($pas->getFoto()); ?>" class="rounded-circle"
                                             style="width: 50px; height: 50px; object-fit: cover;" alt="Foto paseador"
                                             onerror="this.src='img/default-profile.png'">
                                     </td>
-                                    <td><?php echo $pas->getId() ?></td>
-                                    <td><?php echo $pas->getNombre() . " " . $pas->getApellido() ?></td>
-                                    <td><?php echo $pas->getCorreo() ?></td>
-                                    <td><?php echo $pas->getTelefono() ?></td>
-                                    <?php
-
-                                    $estadoId = $pas->getEstadoPaseador()->getIdEstadoPaseador();
-                                    $estadoNombre = $pas->getEstadoPaseador()->getEstado();
-                                    $claseEstado = "";
-
-                                    if ($estadoId == 1) {
-                                        $claseEstado = "text-success";
-                                    } else if ($estadoId == 2) {
-                                        $claseEstado = "text-danger";
-                                    } else {
-                                        $claseEstado = "text-secondary";
-                                    }
-
-                                    ?>
-
+                                    <td><?php echo $pas->getId(); ?></td>
+                                    <td><?php echo $pas->getNombre() . " " . $pas->getApellido(); ?></td>
+                                    <td><?php echo $pas->getCorreo(); ?></td>
+                                    <td><?php echo $pas->getTelefono(); ?></td>
                                     <td>
                                         <div class="rounded-pill" style="background:rgba(0, 0, 0, 0.1);">
-                                            <div id="cambia" class="<?php echo $claseEstado; ?> fw-bold"><?php echo $estadoNombre; ?></div>
+                                            <div class="<?php echo $claseEstado; ?> fw-bold"><?php echo $estadoNombre; ?></div>
                                         </div>
                                     </td>
                                     <td>
-                                        <button title="Cambiar estado" type="button"
-                                            class="btn btn-sm btn-danger btnCambiar"
-                                            data-idcambiar="<?php echo $pas->getId(); ?>"
-                                            data-estado="<?php echo $estadoId; ?>" data-bs-toggle="modal"
-                                            data-bs-target="#staticBackdrop">
-                                            <i class="fas fa-trash-alt"></i>
+                                        <button title="Cambiar estado" type="button" class="btn btn-sm btn-danger btnCambiar"
+                                            data-idcambiar="<?php echo $pas->getId(); ?>" data-estado="<?php echo $estadoId; ?>"
+                                            data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                            <i class="fas fa-sync-alt"></i>
                                         </button>
-
-
-
                                     </td>
                                 </tr>
-                            <?php }
-                        } ?>
+                            <?php
+                            endif;
+                        endforeach;
+                        ?>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 
-    <script>
-        $(document).ready(function () {
-            $("#filtro").keyup(function () {
-                if ($("#filtro").val().length > 2) {
-                    var ruta = "modificarPaseadorAjax.php?filtro=" + $("#filtro").val().replaceAll(" ", "%20");
-                    $("#resultados").load(ruta);
-                }
-            });
-
-
-            let paseadorIdCambiar = null;
-            let idEstado = null;
-
-            $(".btnCambiar").click(function () {
-                paseadorIdCambiar = $(this).data("idcambiar");
-                idEstado = $(this).data("estado");
-                $("#paseador-id-span").text(paseadorIdCambiar);
-            });
-
-            $("#confirmarCambiar").click(function () {
-                if (paseadorIdCambiar) {
-                    var ruta = "cambiarPaseadorAjax.php?idPaseador=" + paseadorIdCambiar + "&idEstado=" + idEstado;
-                    console.log(ruta);
-                    $("#cambia").load(ruta);
-                }
-            });
-
-
-
-        });
-    </script>
     <!-- Modal para confirmar -->
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -136,14 +86,52 @@ $paseadores = $paseador->consultarTodos();
                         aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    ¿Está segur@ de que deseas cambiar el estado del paseador con ID <span id="paseador-id-span"
-                        class="fw-bold text-success"></span>?
+                    <p>¿Está segur@ de cambiar el estado del paseador con ID <span id="paseador-id-span" class="fw-bold text-success"></span>?</p>
+                    <p>
+                        <i class="fas fa-exclamation-triangle fa-lg text-warning me-2"></i>
+                        El usuario <span class="text-danger fw-bold">NO</span> podrá acceder al sistema al cambiar el estado a
+                        <span class="text-danger fw-bold">Inactivo</span>.
+                    </p>
                 </div>
                 <div class="modal-footer bg-success">
-                    <button type="button" id="confirmarCambiar" class="btn btn-danger"
-                        data-bs-dismiss="modal">CambiarEstado</button>
+                    <button type="button" id="confirmarCambiar" class="btn btn-danger" data-bs-dismiss="modal">Cambiar
+                        Estado</button>
                 </div>
             </div>
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#filtro").keyup(function () {
+                if ($("#filtro").val().length > 2) {
+                    var ruta = "modificarPaseadorAjax.php?filtro=" + encodeURIComponent($("#filtro").val());
+                    $("#resultados").load(ruta);
+                } else if ($("#filtro").val().length === 0) {
+                    location.reload();
+                }
+            });
+
+            let paseadorIdCambiar = null;
+            let idEstado = null;
+
+            $(document).on("click", ".btnCambiar", function () {
+                paseadorIdCambiar = $(this).data("idcambiar");
+                idEstado = $(this).data("estado");
+                $("#paseador-id-span").text(paseadorIdCambiar);
+            });
+
+            $("#confirmarCambiar").click(function () {
+                if (paseadorIdCambiar) {
+                    var ruta = "cambiarPaseadorAjax.php?idPaseador=" + paseadorIdCambiar + "&idEstado=" + idEstado;
+                    $.get(ruta, function () {
+                        let filtroActual = $("#filtro").val();
+                        let rutaRecarga = "modificarPaseadorAjax.php?filtro=" + encodeURIComponent(filtroActual);
+                        $("#resultados").load(rutaRecarga);
+                    });
+                }
+            });
+        });
+    </script>
 </body>
