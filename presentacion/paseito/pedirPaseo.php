@@ -34,14 +34,28 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $perros[] = $perro2;
     }
 
-    $nuevoPaseo = new Paseo("", $tarifa, $fecha, $hora, $id, 1, $perros, $direccion);
+    $paseo = new Paseo("", $tarifa, $fecha, $hora, $id, 1, $perros, $direccion);
+    $idPaseo = $paseo->buscarPaseoConCupo();
 
-    $idPaseo = $nuevoPaseo->registrar();
-
-    foreach ($perros as $idPerro) {
-        $nuevoPaseo->asociarPerro($idPerro);
+    if ($idPaseo !== null) {
+        $paseoExistente = new Paseo($idPaseo);
+        foreach ($perros as $idPerro) {
+            $paseoExistente->asociarPerro($idPerro);
+        }
+        echo "<div class='alert alert-success text-center'>
+        Tu perro fue unido a un paseo ya existente.<br>
+        Valor total: <strong>$" . number_format($tarifa, 0, ',', '.') . "</strong>
+    </div>";
+    } else {
+        $idPaseoNuevo = $paseo->registrar();
+        foreach ($perros as $idPerro) {
+            $paseo->asociarPerro($idPerro);
+        }
+        echo "<div class='alert alert-success text-center'>
+        ¡Nuevo paseo registrado con tu perro!<br>
+        Valor total: <strong>$" . number_format($tarifa, 0, ',', '.') . "</strong>
+    </div>";
     }
-    echo "<div class='alert alert-success text-center'>¡Paseo registrado exitosamente! Valor total: <strong>$" . number_format($tarifa, 0, ',', '.') . "</strong></div>";
 }
 
 

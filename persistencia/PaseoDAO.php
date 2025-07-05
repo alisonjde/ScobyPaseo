@@ -107,4 +107,25 @@ class PaseoDAO
         return "INSERT INTO paseo_has_perro (paseo_idPaseo, perro_idPerro)
             VALUES ($idPaseo, $idPerro)";
     }
+
+    public function buscarPaseoExistente($fecha, $hora, $idPaseador)
+    {
+        return "
+        SELECT idPaseo
+        FROM paseo
+        WHERE fecha = '$fecha'
+          AND hora = '$hora'
+          AND paseador_idPaseador = $idPaseador
+        LIMIT 1
+    ";
+    }
+
+    public function contarPerrosEnPaseo($idPaseo)
+    {
+        return "
+        SELECT COUNT(*) as cantidad
+        FROM paseo_has_perro
+        WHERE paseo_idPaseo = $idPaseo
+    ";
+    }
 }

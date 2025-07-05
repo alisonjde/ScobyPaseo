@@ -195,4 +195,43 @@ class Paseo
         $conexion->ejecutar($paseoDAO->asociarPerro($this->idPaseo, $idPerro));
         $conexion->cerrar();
     }
+
+    public function buscarPaseoConCupo()
+    {
+        $conexion = new Conexion();
+        $paseoDAO = new PaseoDAO();
+
+        $conexion->abrir();
+        $conexion->ejecutar($paseoDAO->buscarPaseoExistente($this->fecha, $this->hora, $this->idPaseador));
+        $datos = $conexion->registro();
+
+        $conexion->cerrar();
+
+        if ($datos) {
+            $idPaseo = $datos[0];
+
+            if ($this->verificarCupoPaseo($idPaseo)) {
+                return $idPaseo;
+            }
+        }
+
+        return null; 
+    }
+
+    private function verificarCupoPaseo($idPaseo)
+    {
+        $conexion = new Conexion();
+        $paseoDAO = new PaseoDAO();
+
+        $conexion->abrir();
+        $conexion->ejecutar($paseoDAO->contarPerrosEnPaseo($idPaseo));
+        $datos = $conexion->registro();
+        $conexion->cerrar();
+
+        if ($datos && $datos[0] < 2) {
+            return true;
+        }
+
+        return false;
+    }
 }
