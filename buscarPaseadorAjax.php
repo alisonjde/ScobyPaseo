@@ -11,8 +11,8 @@ $paseadores = $paseador->modificar($filtros);
 if (count($paseadores) > 0) {
   foreach ($paseadores as $pas) {
 
-   
-   
+
+
 
     $nombre = $pas->getNombre();
     $apellido = $pas->getApellido();
@@ -25,10 +25,10 @@ if (count($paseadores) > 0) {
     $apellido = preg_replace_callback($patron, fn($c) => "<strong>{$c[0]}</strong>", $apellido);
     $correo = preg_replace_callback($patron, fn($c) => "<strong>{$c[0]}</strong>", $correo);
     $telefono = preg_replace_callback($patron, fn($c) => "<strong>{$c[0]}</strong>", $telefono);
-
+    $link = '?pid=' . base64_encode('presentacion/paseador/info-Paseador.php') . '&id=' . $pas->getId();
     echo '
         <div class="col-md-4 mb-4">
-          <a href="#" class="text-decoration-none text-dark">
+         <a href="' . $link . '" class="text-decoration-none text-dark">
             <div class="card h-100 shadow">
               <img src="' . $pas->getFoto() . '" class="card-img-top" alt="Foto de ' . $pas->getNombre() . '" onerror="this.src=\'img/default-profile.png\'">
               <div class="card-body">

@@ -1,7 +1,7 @@
 <body>
 
     <?php
-    include("presentacion/encabezado.php");
+    include("presentacion/dueño/menuDueño.php");
     include("presentacion/fondo.php");
 
 
@@ -39,7 +39,8 @@
                                 <p class="card-text"><strong>Descripción:</strong><br><?php echo nl2br($paseador->getDescripcion()); ?></p>
 
                                 <a href="javascript:history.back()" class="btn btn-outline-success mt-3">← Volver</a>
-                                <a href="?pid=<?php echo base64_encode("presentacion/autenticar.php"); ?>" class="btn btn-outline-success mt-3 ms-2">Pedir Paseo</a>
+                                <a href='?pid=<?php echo base64_encode("presentacion/paseito/pedirPaseo.php"); ?>&id=<?php echo $paseador->getId(); ?>' class="btn btn-outline-success mt-3 ms-2">Pedir Paseo</a>
+
 
 
 

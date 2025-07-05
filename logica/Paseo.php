@@ -16,8 +16,9 @@ class Paseo
     private $idEstadoPaseo;
     private $paseador;
     private $perro;
+    private $direccion;
 
-    public function __construct($idPaseo = "", $tarifa = 0, $fecha = "", $hora = "", $idPaseador = "", $idEstadoPaseo = "", $perro = null)
+    public function __construct($idPaseo = "", $tarifa = 0, $fecha = "", $hora = "", $idPaseador = "", $idEstadoPaseo = "", $perro = null, $direccion = "")
     {
         $this->idPaseo = $idPaseo;
         $this->fecha = $fecha;
@@ -26,7 +27,9 @@ class Paseo
         $this->idPaseador = $idPaseador;
         $this->idEstadoPaseo = $idEstadoPaseo;
         $this->perro = $perro;
+        $this->direccion = $direccion;
     }
+
 
     public function getIdPaseo()
     {
@@ -167,5 +170,29 @@ class Paseo
 
         $conexion->cerrar();
         return $paseos;
+    }
+
+    public function registrar()
+    {
+        $conexion = new Conexion();
+        $paseoDAO = new PaseoDAO(0, $this->tarifa, $this->fecha, $this->hora, $this->idPaseador, $this->direccion);
+
+        $conexion->abrir();
+        $conexion->ejecutar($paseoDAO->registrar());
+
+        $this->idPaseo = $conexion->obtenerIdInsertado();
+
+        $conexion->cerrar();
+        return $this->idPaseo;
+    }
+
+
+    public function asociarPerro($idPerro)
+    {
+        $conexion = new Conexion();
+        $paseoDAO = new PaseoDAO();
+        $conexion->abrir();
+        $conexion->ejecutar($paseoDAO->asociarPerro($this->idPaseo, $idPerro));
+        $conexion->cerrar();
     }
 }

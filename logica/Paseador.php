@@ -66,6 +66,24 @@ class Paseador extends Persona
         $conexion->cerrar();
     }
 
+    public function consultar2()
+    {
+        $conexion = new Conexion();
+        $paseadorDAO = new PaseadorDAO($this->id);
+        $conexion->abrir();
+        $conexion->ejecutar($paseadorDAO->consultar2());
+        $datos = $conexion->registro();
+        $this->nombre = $datos[0];
+        $this->apellido = $datos[1];
+        $this->correo = $datos[2];
+        $this->telefono = $datos[3];
+        $this->foto = $datos[4];
+        $this->descripcion = $datos[5];
+        $conexion->cerrar();
+    }
+
+
+
     public function consultarTodos()
     {
         $conexion = new Conexion();
@@ -288,25 +306,24 @@ class Paseador extends Persona
         return $resultado;
     }
 
-   public function obtenerEstados()
-{
-    $conexion = new Conexion();
-    $conexion->abrir();
-    $paseadorDAO = new PaseadorDAO();
+    public function obtenerEstados()
+    {
+        $conexion = new Conexion();
+        $conexion->abrir();
+        $paseadorDAO = new PaseadorDAO();
 
-    $estados = array();
+        $estados = array();
 
-    if ($conexion->ejecutar($paseadorDAO->consultarEstados())) {
-        while (($datos = $conexion->registro()) != null) {
-            $estados[] = array(
-                "id" => $datos[0],
-                "nombre" => $datos[1]
-            );
+        if ($conexion->ejecutar($paseadorDAO->consultarEstados())) {
+            while (($datos = $conexion->registro()) != null) {
+                $estados[] = array(
+                    "id" => $datos[0],
+                    "nombre" => $datos[1]
+                );
+            }
         }
+
+        $conexion->cerrar();
+        return $estados;
     }
-
-    $conexion->cerrar();
-    return $estados;
-}
-
 }

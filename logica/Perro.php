@@ -3,75 +3,86 @@ require_once("persistencia/Conexion.php");
 require_once("persistencia/PerroDAO.php");
 require_once("logica/Dueño.php");
 
-class Perro {
+class Perro
+{
     private $idPerro;
     private $nombre;
     private $foto;
     private $idTamaño;
     private $idDueño;
-    
-    public function __construct($idPerro = "", $nombre = "", $foto = "", $idTamaño = "", $idDueño = "") {
+
+    public function __construct($idPerro = "", $nombre = "", $foto = "", $idTamaño = "", $idDueño = "")
+    {
         $this->idPerro = $idPerro;
         $this->nombre = $nombre;
         $this->foto = $foto;
         $this->idTamaño = $idTamaño;
         $this->idDueño = $idDueño;
     }
-    
-    public function getIdPerro() {
+
+    public function getIdPerro()
+    {
         return $this->idPerro;
     }
-    
-    public function getNombre() {
+
+    public function getNombre()
+    {
         return $this->nombre;
     }
 
-    public function getFoto() {
+    public function getFoto()
+    {
         return $this->foto;
     }
-    
-    public function getIdTamaño() {
+
+    public function getIdTamaño()
+    {
         return $this->idTamaño;
     }
-    
-    public function getIdDueño() {
+
+    public function getIdDueño()
+    {
         return $this->idDueño;
     }
-    
-    public function consultarCantidad() {
+
+    public function consultarCantidad()
+    {
         $conexion = new Conexion();
-        $perroDAO = new PerroDAO($this->idPerro,"","","", $this->idDueño);
+        $perroDAO = new PerroDAO($this->idPerro, "", "", "", $this->idDueño);
         $conexion->abrir();
-        $conexion->ejecutar($perroDAO-> consultarCantidad());
+        $conexion->ejecutar($perroDAO->consultarCantidad());
         $dato = $conexion->registro();
         $cantidad = $dato[0];
         $conexion->cerrar();
         return $cantidad;
     }
 
-    public function consultarPorDueño(){
+    public function consultarPorDueño($idDueño)
+    {
         $conexion = new Conexion();
-        $perroDAO = new PerroDAO($this -> idDueño);
+        $perroDAO = new PerroDAO();
         $conexion->abrir();
-        $conexion->ejecutar($perroDAO->consultarPorDueño($this -> idDueño));
+        $conexion->ejecutar($perroDAO->consultarPorDueño($idDueño));
 
         $perros = array();
-        while($datos = $conexion->registro()) {
+        while ($datos = $conexion->registro()) {
             $perro = new Perro(
                 $datos[0],
                 $datos[1],
-                $datos[2],
-                $datos[3],
-                new Dueño($this -> idDueño, $datos[4])
-                );
+                $datos[3], 
+                $datos[2], 
+                new Dueño($idDueño, $datos[4]) 
+            );
             array_push($perros, $perro);
         }
-        
+
         $conexion->cerrar();
         return $perros;
     }
 
-    public function crear() {
+
+    public function crear()
+    {
         $conexion = new Conexion();
         $perroDAO = new PerroDAO(
             $this->idPerro,
@@ -79,28 +90,25 @@ class Perro {
             $this->foto,
             $this->idTamaño,
             $this->idDueño
-            );
-        
+        );
+
         $conexion->abrir();
 
-        try{
+        try {
             $conexion->ejecutar("SELECT idPerro FROM perro WHERE idPerro = '" . $this->idPerro . "'");
-            if($conexion->filas() > 0) {
+            if ($conexion->filas() > 0) {
                 throw new Exception("El ID del perro ya existe");
             }
 
             $conexion->ejecutar($perroDAO->crear());
             $resultado = true;
-
-        }catch(Exception){
+        } catch (Exception) {
             $resultado = false;
-
-        }finally{
+        } finally {
             $conexion->cerrar();
         }
 
         return $resultado;
-
     }
 
     public function buscar($filtros)
@@ -111,8 +119,8 @@ class Perro {
         $conexion->ejecutar($perroDAO->buscar($filtros));
 
         $perros = array();
-        while (($datos = $conexion->registro())!=null) {
-            $dueño=new Dueño($datos[4],$datos[5],$datos[6]);
+        while (($datos = $conexion->registro()) != null) {
+            $dueño = new Dueño($datos[4], $datos[5], $datos[6]);
             $perro = new Perro($datos[0], $datos[1], $datos[2], $datos[3], $dueño);
             array_push($perros, $perro);
         }
@@ -121,4 +129,3 @@ class Perro {
         return $perros;
     }
 }
-?>

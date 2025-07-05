@@ -44,4 +44,9 @@ class Conexion
     {
         return $this->conexion->affected_rows;
     }
+
+    public function obtenerIdInsertado()
+    {
+        return $this->conexion->insert_id;
+    }
 }

@@ -2,19 +2,22 @@
 class PaseoDAO
 {
     private $idPaseo;
-    private $idTarifa;
+    private $tarifa;
     private $fecha;
     private $hora;
     private $idPaseador;
+    private $direccion;
 
-    public function __construct($idPaseo = 0, $idTarifa = 0, $fecha = "", $hora = "", $idPaseador = 0)
+    public function __construct($idPaseo = 0, $tarifa = 0, $fecha = "", $hora = "", $idPaseador = 0, $direccion = "")
     {
         $this->idPaseo = $idPaseo;
-        $this->idTarifa = $idTarifa;
+        $this->tarifa = $tarifa;
         $this->fecha = $fecha;
         $this->hora = $hora;
         $this->idPaseador = $idPaseador;
+        $this->direccion = $direccion;
     }
+
 
     public function consultarTodos()
     {
@@ -89,5 +92,19 @@ class PaseoDAO
         WHERE p.paseador_idPaseador = " . intval($idPaseador) . "
           AND $consulta
         ORDER BY p.fecha DESC";
+    }
+
+    public function registrar()
+    {
+        return "INSERT INTO paseo (tarifa, fecha, hora, paseador_idPaseador, estado_paseo_idEstadoPaseo, direccion)
+        VALUES ($this->tarifa, '$this->fecha', '$this->hora', $this->idPaseador, 1, '$this->direccion')";
+    }
+
+
+
+    public function asociarPerro($idPaseo, $idPerro)
+    {
+        return "INSERT INTO paseo_has_perro (paseo_idPaseo, perro_idPerro)
+            VALUES ($idPaseo, $idPerro)";
     }
 }

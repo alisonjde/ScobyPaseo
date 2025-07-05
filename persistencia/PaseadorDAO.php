@@ -40,6 +40,15 @@ class PaseadorDAO
                 FROM paseador
                 WHERE idPaseador = '" . $this->id . "'";
     }
+    
+    public function consultar2()
+    {
+        return "SELECT nombre, apellido, correo, telefono, foto, descripcion
+            FROM paseador
+            WHERE idPaseador = '" . $this->id . "'";
+    }
+
+
 
     public function consultarTodos()
     {
