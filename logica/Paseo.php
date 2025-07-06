@@ -6,7 +6,8 @@ require_once("logica/Dueño.php");
 require_once("logica/Perro.php");
 require_once("logica/EstadoPaseo.php");
 
-class Paseo {
+class Paseo
+{
     private $idPaseo;
     private $tarifa;
     private $fecha;
@@ -17,7 +18,8 @@ class Paseo {
     private $perro;
     private $direccion;
 
-    public function __construct($idPaseo = "", $tarifa = 0, $fecha = "", $hora = "", $idPaseador = "", $idEstadoPaseo = "", $perro = null, $direccion = "") {
+    public function __construct($idPaseo = "", $tarifa = 0, $fecha = "", $hora = "", $idPaseador = "", $idEstadoPaseo = "", $perro = null, $direccion = "")
+    {
         $this->idPaseo = $idPaseo;
         $this->tarifa = $tarifa;
         $this->fecha = $fecha;
@@ -29,19 +31,46 @@ class Paseo {
     }
 
     // Getters
-    public function getIdPaseo() { return $this->idPaseo; }
-    public function getTarifa() { return $this->tarifa; }
-    public function getFecha() { return $this->fecha; }
-    public function getHora() { return $this->hora; }
-    public function getIdPaseador() { return $this->idPaseador; }
-    public function getEstadoPaseo() { return $this->idEstadoPaseo; }
-    public function getPaseador() { return $this->paseador; }
-    public function getPerro() { return $this->perro; }
-    public function getDireccion() { return $this->direccion; }
+    public function getIdPaseo()
+    {
+        return $this->idPaseo;
+    }
+    public function getTarifa()
+    {
+        return $this->tarifa;
+    }
+    public function getFecha()
+    {
+        return $this->fecha;
+    }
+    public function getHora()
+    {
+        return $this->hora;
+    }
+    public function getIdPaseador()
+    {
+        return $this->idPaseador;
+    }
+    public function getEstadoPaseo()
+    {
+        return $this->idEstadoPaseo;
+    }
+    public function getPaseador()
+    {
+        return $this->paseador;
+    }
+    public function getPerro()
+    {
+        return $this->perro;
+    }
+    public function getDireccion()
+    {
+        return $this->direccion;
+    }
 
-    // Métodos de negocio
 
-    public function consultarTodos($id = "", $rol = "") {
+    public function consultarTodos($id = "", $rol = "")
+    {
         $conexion = new Conexion();
         $paseoDAO = new PaseoDAO();
         $conexion->abrir();
@@ -70,7 +99,38 @@ class Paseo {
         return $paseos;
     }
 
-    public function consultar() {
+    public function consultarTodos2($id = "", $rol = "")
+    {
+        $conexion = new Conexion();
+        $paseoDAO = new PaseoDAO();
+        $conexion->abrir();
+        $conexion->ejecutar($paseoDAO->consultarTodos2($id, $rol));
+
+        $paseos = array();
+        while ($datos = $conexion->registro()) {
+            $paseador = new Paseador($datos[4], $datos[5], $datos[6], "", "", "", "", "", "", "");
+            $dueño = new Dueño($datos[10], $datos[11], $datos[12]);
+            $perro = new Perro($datos[7], $datos[8], $datos[9], "", $dueño); 
+            $estadoPaseo = new EstadoPaseo($datos[13], $datos[14]);
+
+            $paseo = new Paseo(
+                $datos[0],
+                $datos[1],
+                $datos[2],
+                $datos[3],
+                $paseador,
+                $estadoPaseo,
+                $perro
+            );
+            array_push($paseos, $paseo);
+        }
+
+        $conexion->cerrar();
+        return $paseos;
+    }
+
+    public function consultar()
+    {
         $conexion = new Conexion();
         $paseoDAO = new PaseoDAO($this->idPaseo);
         $conexion->abrir();
@@ -85,7 +145,8 @@ class Paseo {
         $conexion->cerrar();
     }
 
-    public function consultarPendiente() {
+    public function consultarPendiente()
+    {
         $conexion = new Conexion();
         $paseoDAO = new PaseoDAO("", "", "", "", $this->idPaseador);
         $conexion->abrir();
@@ -96,7 +157,8 @@ class Paseo {
         return $datos[0];
     }
 
-    public function consultarPorPaseador($idPaseador) {
+    public function consultarPorPaseador($idPaseador)
+    {
         $conexion = new Conexion();
         $paseoDAO = new PaseoDAO();
         $conexion->abrir();
@@ -114,7 +176,8 @@ class Paseo {
         return $paseos;
     }
 
-    public function buscarPorPaseador($filtros, $idPaseador) {
+    public function buscarPorPaseador($filtros, $idPaseador)
+    {
         $conexion = new Conexion();
         $conexion->abrir();
         $paseoDAO = new PaseoDAO();
@@ -132,7 +195,8 @@ class Paseo {
         return $paseos;
     }
 
-    public function buscar($filtros) {
+    public function buscar($filtros)
+    {
         $conexion = new Conexion();
         $conexion->abrir();
         $paseoDAO = new PaseoDAO();
@@ -160,7 +224,8 @@ class Paseo {
         return $paseos;
     }
 
-    public function registrar() {
+    public function registrar()
+    {
         $conexion = new Conexion();
         $paseoDAO = new PaseoDAO(0, $this->tarifa, $this->fecha, $this->hora, $this->idPaseador, $this->direccion);
         $conexion->abrir();
@@ -170,7 +235,8 @@ class Paseo {
         return $this->idPaseo;
     }
 
-    public function asociarPerro($idPerro) {
+    public function asociarPerro($idPerro)
+    {
         $conexion = new Conexion();
         $paseoDAO = new PaseoDAO();
         $conexion->abrir();
@@ -178,7 +244,8 @@ class Paseo {
         $conexion->cerrar();
     }
 
-    public function actualizarEstado($nuevoEstado) {
+    public function actualizarEstado($nuevoEstado)
+    {
         $conexion = new Conexion();
         $paseoDAO = new PaseoDAO($this->idPaseo);
         $conexion->abrir();
@@ -186,7 +253,8 @@ class Paseo {
         $conexion->cerrar();
     }
 
-    public function obtenerEstados() {
+    public function obtenerEstados()
+    {
         $conexion = new Conexion();
         $paseoDAO = new PaseoDAO();
         $conexion->abrir();
@@ -202,7 +270,8 @@ class Paseo {
         return $estados;
     }
 
-    public function buscarPaseoConCupo() {
+    public function buscarPaseoConCupo()
+    {
         $conexion = new Conexion();
         $paseoDAO = new PaseoDAO();
         $conexion->abrir();
@@ -217,7 +286,8 @@ class Paseo {
         return null;
     }
 
-    private function verificarCupoPaseo($idPaseo) {
+    private function verificarCupoPaseo($idPaseo)
+    {
         $conexion = new Conexion();
         $paseoDAO = new PaseoDAO();
         $conexion->abrir();
@@ -226,5 +296,22 @@ class Paseo {
         $conexion->cerrar();
 
         return ($datos && $datos[0] < 2);
+    }
+
+    public function consultarDueño()
+    {
+        $conexion = new Conexion();
+        $paseoDAO = new PaseoDAO($this->idPaseo);
+        $conexion->abrir();
+        $conexion->ejecutar($paseoDAO->consultarDueño());
+
+        $dueño = null;
+        if ($conexion->filas() > 0) {
+            $datos = $conexion->registro();
+            $dueño = new Dueño($datos[0], $datos[1], $datos[2], $datos[3]);
+        }
+
+        $conexion->cerrar();
+        return $dueño;
     }
 }

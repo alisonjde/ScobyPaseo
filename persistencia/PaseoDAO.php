@@ -44,6 +44,33 @@ class PaseoDAO
         return $sql;
     }
 
+    public function consultarTodos2($id = "", $rol = "")
+    {
+        $sql = "SELECT 
+                p.idPaseo, p.tarifa, p.fecha, p.hora, 
+                pa.idPaseador, pa.nombre, pa.apellido, 
+                pe.idPerro, pe.nombre, pe.foto,
+                d.idDueño, d.nombre, d.apellido, 
+                e.idEstadoPaseo, e.estado
+            FROM paseo p
+            JOIN paseador pa ON p.paseador_idPaseador = pa.idPaseador
+            JOIN estado_paseo e ON p.estado_paseo_idEstadoPaseo = e.idEstadoPaseo
+            JOIN paseo_has_perro pp ON p.idPaseo = pp.paseo_idPaseo
+            JOIN perro pe ON pe.idPerro = pp.perro_idPerro
+            JOIN dueño d ON d.idDueño = pe.dueño_idDueño";
+
+        if ($rol === "paseador") {
+            $sql .= " WHERE pa.idPaseador = " . intval($id);
+        } else if ($rol === "dueño") {
+            $sql .= " WHERE d.idDueño = " . intval($id);
+        }
+
+        $sql .= " ORDER BY p.fecha DESC, p.hora DESC";
+
+        return $sql;
+    }
+
+
     public function consultar()
     {
         return "SELECT p.idPaseo, p.tarifa, p.fecha, p.hora,
@@ -179,5 +206,17 @@ class PaseoDAO
         return "SELECT COUNT(*) as cantidad
                 FROM paseo_has_perro
                 WHERE paseo_idPaseo = $idPaseo";
+    }
+    public function consultarDueño()
+    {
+        return "
+        SELECT d.idDueño, d.nombre, d.apellido, d.correo
+        FROM paseo pa
+        JOIN paseo_perro pp ON pa.idPaseo = pp.idPaseo
+        JOIN perro p ON pp.idPerro = p.idPerro
+        JOIN dueño d ON p.idDueño = d.idDueño
+        WHERE pa.idPaseo = '{$this->idPaseo}'
+        LIMIT 1
+    ";
     }
 }

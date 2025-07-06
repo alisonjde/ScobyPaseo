@@ -47,6 +47,8 @@ include("presentacion/paseador/menuPaseador.php");
                                 <th>Paseador</th>
                             <?php
                             } ?>
+                            <th>Foto</th>
+
                             <th>Perro</th>
                             <?php
                             if ($rol != "dueño") {
@@ -62,7 +64,7 @@ include("presentacion/paseador/menuPaseador.php");
                         <?php
 
 
-                        $paseos = $paseo->consultarTodos($id, $rol);
+                        $paseos = $paseo->consultarTodos2($id, $rol);
                         foreach ($paseos as $pas) {
                             $fechaFormateada = date("d/m/Y", strtotime($pas->getFecha()));
                             $horaFormateada = date("H:i", strtotime($pas->getHora()));
@@ -83,6 +85,16 @@ include("presentacion/paseador/menuPaseador.php");
                                 <?php
                                 }
                                 ?>
+                                
+                                <td>
+                                    <img src="<?php echo $pas->getPerro()->getFoto(); ?>"
+                                        class="card-img-top"
+                                        alt="Foto de <?php echo $pas->getPerro()->getNombre(); ?>"
+                                        onerror="this.src='img/default-profile.png';"
+                                        style="width: 60px; height: 60px; object-fit: cover; border-radius: 50%;">
+                                </td>
+
+
                                 <td><?php echo $pas->getPerro()->getNombre() ?></td>
                                 <?php
                                 if ($rol != "dueño") {
@@ -92,6 +104,7 @@ include("presentacion/paseador/menuPaseador.php");
                                 <?php
                                 }
                                 ?>
+
                                 <?php
                                 $estadoId = $pas->getEstadoPaseo()->getIdEstadoPaseo();
                                 $estadoNombre = $pas->getEstadoPaseo()->getEstado();
@@ -117,10 +130,11 @@ include("presentacion/paseador/menuPaseador.php");
                                 </td>
 
                                 <td>
+
                                     <button
                                         class="btn btn-sm btn-success aceptar-btn"
                                         data-id="<?php echo $pas->getIdPaseo(); ?>"
-                                        style="<?php echo ($estadoId != 1 && $estadoId != 4) ? 'display: none;' : ''; ?>">
+                                        style="<?php echo ($estadoId != 1) ? 'display: none;' : ''; ?>">
                                         Aceptar
                                     </button>
                                     <button
