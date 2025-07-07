@@ -24,7 +24,8 @@ include("presentacion/fondo.php");
                         Paseadores
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item text-light" href="?pid=<?php echo base64_encode("presentacion/paseador/consultarPaseador.php") ?>">Consultar Paseadores</a></li>
+                        <li><a class="dropdown-item text-light" href="?pid=<?php echo base64_encode("presentacion/paseador/consultarPaseador.php") ?>">Consultar</a></li>
+                        <li><a class="dropdown-item text-light" href="?pid=<?php echo base64_encode("presentacion/paseador/actualizarPaseador.php") ?>">Actualizar</a></li>
                     </ul>
                 </li>
 

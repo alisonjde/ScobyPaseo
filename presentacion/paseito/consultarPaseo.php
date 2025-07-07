@@ -13,8 +13,11 @@
     <div class="text-center py-3 hero-text">
         <div class="container glass py-3">
             <h1 class="display-6">Listado de Paseos</h1>
-
-            <div class="table-responsive">
+            <div class="mb-4 text-center">
+                <input type="text" id="filtro" class="form-control w-50 mx-auto"
+                    placeholder="Buscar paseo por fecha(DD_MM_AAAA), hora, nombre, apellido...">
+            </div>
+            <div id="resultados" class="table-responsive">
                 <table class="table table-custom table-hover text-light">
                     <thead>
                         <tr>
@@ -50,7 +53,7 @@
                                 <td><?php echo $pas->getIdPaseo() ?></td>
                                 <td><?php echo htmlspecialchars($fechaFormateada) ?></td>
                                 <td><?php echo htmlspecialchars($horaFormateada) ?></td>
-                                <td><span class="tarifa-badge">$<?php echo number_format($pas->getTarifa(), 2) ?></span></td>
+                                <td><span class="tarifa-badge">$<?php echo $pas->getTarifa() ?></span></td>
                                 <?php
                                 if ($rol != "paseador") {
                                     ?>
@@ -94,8 +97,14 @@
             </div>
         </div>
     </div>
-
-
-
-
+<script>
+        $(document).ready(function() {
+            $("#filtro").keyup(function() {
+                if ($("#filtro").val().length > 2) {
+                    var ruta = "buscarPaseoAjax.php?filtro=" + $("#filtro").val().replaceAll(" ", "%20") + "&id=<?php echo $id; ?>&rol=<?php echo $rol; ?>";
+                    $("#resultados").load(ruta);
+                }
+            });
+        });
+</script>
 </body>

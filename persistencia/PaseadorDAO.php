@@ -75,8 +75,8 @@ class PaseadorDAO
             nombre = '" . $this->nombre . "',
             apellido = '" . $this->apellido . "',
             foto = '" . $this->foto . "',
-            correo = '" . $this->correo . "',
-            telefono = " . $this->telefono . ",
+            telefono = '" . $this->telefono . "',
+            descripcion = '" . $this->descripcion . "'
             WHERE idPaseador = '" . $this->id . "'";
     }
 
@@ -99,7 +99,7 @@ class PaseadorDAO
 {
     $condiciones = [];
     foreach ($filtros as $filtro) {
-        $condiciones[] = "(p.nombre LIKE '%$filtro%' OR p.apellido LIKE '%$filtro%' OR p.correo LIKE '%$filtro%' OR p.telefono LIKE '%$filtro%')";
+        $condiciones[] = "(p.nombre LIKE '%$filtro%' OR p.descripcion LIKE '%$filtro%' OR p.apellido LIKE '%$filtro%' OR p.correo LIKE '%$filtro%' OR p.telefono LIKE '%$filtro%')";
     }
 
     $consultaFiltros = implode(" AND ", $condiciones);
@@ -129,7 +129,8 @@ class PaseadorDAO
                 p.apellido, 
                 p.foto, 
                 p.correo, 
-                p.telefono, 
+                p.telefono,
+                p.descripcion,
                 ep.estado AS estadoPaseador
             FROM paseador p
             INNER JOIN estadoPaseador ep ON p.idEstado = ep.idEstado
@@ -185,4 +186,17 @@ class PaseadorDAO
     {
         return "SELECT idEstado, estado AS nombre FROM estadoPaseador";
     }
+
+    public function buscar() {
+    return "SELECT 
+                p.idPaseador,
+                p.Nombre,
+                p.Apellido,
+                p.Telefono,
+                p.Foto,
+                p.Descripcion
+            FROM paseador p
+            WHERE p.idPaseador = '$this->id'";
+}
+
 }

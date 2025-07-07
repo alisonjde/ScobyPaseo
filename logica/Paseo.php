@@ -56,12 +56,12 @@ class Paseo
     {
         return $this->perro;
     }
-    public function consultarTodos($id, $rol)
+    public function consultarTodos($id, $rol, $filtros = [])
     {
         $conexion = new Conexion();
         $paseoDAO = new PaseoDAO();
         $conexion->abrir();
-        $conexion->ejecutar($paseoDAO->consultarTodos($id, $rol));
+        $conexion->ejecutar($paseoDAO->consultarTodos($id, $rol, $filtros));
 
         $paseos = array();
         while ($datos = $conexion->registro()) {

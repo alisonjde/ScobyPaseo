@@ -57,12 +57,13 @@ class Perro {
 
         $perros = array();
         while($datos = $conexion->registro()) {
+            $tamaño = new Tamaño($datos[3], $datos[4]);
             $perro = new Perro(
                 $datos[0],
                 $datos[1],
                 $datos[2],
-                $datos[3],
-                new Dueño($this -> idDueño, $datos[4])
+                $tamaño,
+                new Dueño($this -> idDueño, $datos[5])
                 );
             array_push($perros, $perro);
         }
@@ -71,37 +72,6 @@ class Perro {
         return $perros;
     }
 
-    public function crear() {
-        $conexion = new Conexion();
-        $perroDAO = new PerroDAO(
-            $this->idPerro,
-            $this->nombre,
-            $this->foto,
-            $this->idTamaño,
-            $this->idDueño
-            );
-        
-        $conexion->abrir();
-
-        try{
-            $conexion->ejecutar("SELECT idPerro FROM perro WHERE idPerro = '" . $this->idPerro . "'");
-            if($conexion->filas() > 0) {
-                throw new Exception("El ID del perro ya existe");
-            }
-
-            $conexion->ejecutar($perroDAO->crear());
-            $resultado = true;
-
-        }catch(Exception){
-            $resultado = false;
-
-        }finally{
-            $conexion->cerrar();
-        }
-
-        return $resultado;
-
-    }
 
     public function buscar($filtros)
     {
@@ -120,5 +90,22 @@ class Perro {
         $conexion->cerrar();
         return $perros;
     }
+    
+    public function insertar() {
+    try {
+        $conexion = new Conexion();
+        $perroDAO = new PerroDAO("", $this->nombre, $this->foto, $this->idTamaño, $this->idDueño);
+        
+        $conexion->abrir();
+        $conexion->ejecutar($perroDAO->insertar());
+        $conexion->cerrar();
+        
+        return true;
+        
+    } catch (Exception $e) {
+        
+        return false;
+    }
+}
 }
 ?>

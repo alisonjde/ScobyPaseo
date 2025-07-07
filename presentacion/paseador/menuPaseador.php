@@ -23,7 +23,6 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item text-light" href="?pid=<?php echo base64_encode("presentacion/perro/consultarPerro.php") ?>">Consultar</a></li>
-                        <li><a class="dropdown-item text-light" href="?pid=<?php echo base64_encode("presentacion/perro/crearPerro.php") ?>">Agregar</a></li>
                     </ul>
                 </li>
 

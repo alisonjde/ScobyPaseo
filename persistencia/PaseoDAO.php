@@ -16,13 +16,14 @@ class PaseoDAO
         $this->idPaseador = $idPaseador;
     }
     
-    public function consultarTodos($id, $rol) {
-    $sentencia = "SELECT 
-                    p.idPaseo, p.tarifa, p.fecha, p.hora, 
-                    pa.idPaseador, pa.nombre, pa.apellido, 
-                    pe.idPerro, pe.nombre, 
-                    d.idDueño, d.nombre, d.apellido, 
-                    e.idEstadoPaseo, e.estado
+    
+    public function consultarTodos($id = null, $rol = null, $filtros = []) {
+        $sentencia = "SELECT 
+                        p.idPaseo, FORMAT(p.tarifa, 2), p.fecha, p.hora, 
+                        pa.idPaseador, pa.nombre, pa.apellido, 
+                        pe.idPerro, pe.nombre, 
+                        d.idDueño, d.nombre, d.apellido, 
+                        e.idEstadoPaseo, e.estado
                     FROM paseo p
                     JOIN paseador pa ON p.paseador_idPaseador = pa.idPaseador
                     JOIN estado_paseo e ON p.estado_paseo_idEstadoPaseo = e.idEstadoPaseo
@@ -30,17 +31,68 @@ class PaseoDAO
                     JOIN perro pe ON pe.idPerro = pp.perro_idPerro
                     JOIN dueño d ON d.idDueño = pe.dueño_idDueño";
 
-    if ($rol == "paseador") {
-        $sentencia .= " WHERE pa.idPaseador = " . $id;
-    } else if ($rol == "dueño") {
-        $sentencia .= " WHERE d.idDueño = " . $id;
+        $condiciones = [];
+
+        if ($rol == "paseador") {
+            $condiciones[] = "pa.idPaseador = " . $id;
+        } else if ($rol == "dueño") {
+            $condiciones[] = "d.idDueño = " . $id;
+        }
+        
+
+        // Condiciones de filtros (funcionalidad similar a buscar)
+        if (!empty($filtros)) {
+            $filtrosCondiciones = [];
+            foreach ($filtros as $filtro) {
+                if ($rol == "dueño") {
+                    // Si el rol es dueño, no filtrar por campos de dueño
+                    $filtrosCondiciones[] = "(
+                        FORMAT(p.tarifa, 2) LIKE '%$filtro%' OR
+                        p.fecha LIKE '%$filtro%' OR
+                        p.hora LIKE '%$filtro%' OR
+                        pa.nombre LIKE '%$filtro%' OR
+                        pa.apellido LIKE '%$filtro%' OR
+                        pe.nombre LIKE '%$filtro%' OR
+                        e.estado LIKE '%$filtro%'
+                    )";
+                } else if ($rol == "paseador") {
+                    // Si el rol es paseador, no filtrar por campos de paseador
+                    $filtrosCondiciones[] = "(
+                        FORMAT(p.tarifa, 2) LIKE '%$filtro%' OR
+                        p.fecha LIKE '%$filtro%' OR
+                        p.hora LIKE '%$filtro%' OR
+                        pe.nombre LIKE '%$filtro%' OR
+                        d.nombre LIKE '%$filtro%' OR
+                        d.apellido LIKE '%$filtro%' OR
+                        e.estado LIKE '%$filtro%'
+                    )";
+                } else {
+                    // Para otros roles, filtrar por todos los campos
+                    $filtrosCondiciones[] = "(
+                        FORMAT(p.tarifa, 2) LIKE '%$filtro%' OR
+                        p.fecha LIKE '%$filtro%' OR
+                        p.hora LIKE '%$filtro%' OR
+                        pa.nombre LIKE '%$filtro%' OR
+                        pa.apellido LIKE '%$filtro%' OR
+                        pe.nombre LIKE '%$filtro%' OR
+                        d.nombre LIKE '%$filtro%' OR
+                        d.apellido LIKE '%$filtro%' OR
+                        e.estado LIKE '%$filtro%'
+                    )";
+                }
+            }
+            $condiciones[] = "(" . implode(" AND ", $filtrosCondiciones) . ")";
+        }
+
+        if (!empty($condiciones)) {
+            $sentencia .= " WHERE " . implode(" AND ", $condiciones);
+        }
+
+        $sentencia .= " ORDER BY p.fecha DESC, p.hora DESC";
+
+        return $sentencia;
     }
-
-    $sentencia .= " ORDER BY p.fecha DESC, p.hora DESC";
-
-    return $sentencia;
-}
-
+    
     
     public function consultarPorPaseador($idPaseador) {
         return "SELECT p.idPaseo, p.tarifa, p.fecha, p.hora
@@ -71,6 +123,7 @@ class PaseoDAO
     foreach ($filtros as $filtro) {
         $condiciones[] = "(
             p.fecha LIKE '%$filtro%' OR
+            p.hora LIKE '%$filtro%' OR
             pa.nombre LIKE '%$filtro%' OR
             pa.apellido LIKE '%$filtro%' OR
             pe.nombre LIKE '%$filtro%' OR

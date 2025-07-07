@@ -4,6 +4,7 @@ require ("logica/Admin.php");
 require ("logica/Dueño.php");  
 require ("logica/Paseador.php");
 require ("logica/Perro.php");
+require ("logica/Tamaño.php");
 require ("logica/Paseo.php");
 require ("logica/EstadoPaseo.php");
 require ("logica/EstadoPaseador.php");
@@ -47,11 +48,13 @@ $paginas_con_autenticacion = array(
     "presentacion/dueño/consultarDueño.php",
     "presentacion/perro/consultarPerro.php",
     "presentacion/perro/consultarPorDueño.php",
-     "presentacion/perro/crearPerro.php",
+    "presentacion/perro/crearPerro.php",
     "presentacion/paseito/consultarPaseo.php",
     "presentacion/paseador/confirmarPaseador.php",
     "presentacion/paseito/consultarPaseo_paseador.php",
-    "presentacion/paseito/consultarPaseoAdmin.php"
+    "presentacion/paseito/consultarPaseoAdmin.php",
+    "presentacion/paseador/actualizarPaseador.php",
+    "presentacion/paseador/respuestaActualizarPaseador.php",
 );
 
 if(!isset($_GET["pid"])){

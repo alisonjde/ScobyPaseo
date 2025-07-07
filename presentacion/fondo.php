@@ -16,6 +16,14 @@
     border-radius: 8px;
   }
 
+  .perroDueño-img {
+    width: 65px;
+    height: 65px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
 
   .glass {
     background: rgba(52, 128, 35, 0.7);
@@ -28,12 +36,49 @@
     background-color: rgb(90, 179, 90);
   }
 
+  @keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
+  .fade-in {
+    animation: fadeIn 0.5s ease-in;
+  }
+
+  .form-container {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
 
   .btn-primary {
     background-color: rgb(81, 178, 42);
     border: none;
-  }
+    color: white;
+    padding: 10px 20px;
+    font-weight: bold;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: rgb(71, 158, 35); /* un verde un poco más oscuro */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+.border-success-subtle:focus {
+    border-color: #28a745 !important;
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+}
 
 
   footer {

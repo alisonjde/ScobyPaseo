@@ -5,9 +5,11 @@ require("logica/Perro.php");
 require("logica/EstadoPaseo.php");
 
 $filtro = $_GET["filtro"];
+$id = $_GET["id"];
+$rol = $_GET["rol"];
 $filtros = explode(" ", $filtro);
 $paseo = new Paseo();
-$paseos = $paseo->buscar($filtros);
+$paseos = $paseo->consultarTodos($id, $rol, $filtros);
 
 if (count($paseos) > 0) {
     echo "<table class='table table-custom table-hover text-light'>
@@ -16,17 +18,21 @@ if (count($paseos) > 0) {
                 <th>Id Paseo</th>
                 <th>Fecha</th>
                 <th>Hora</th>
-                <th>Tarifa</th>
-                <th>Paseador</th>
-                <th>Perro</th>
-                <th>Dueño</th>
-                <th>Estado</th>
+                <th>Tarifa</th>";
+    if ($rol != "paseador") {
+        echo "<th>Paseador</th>";
+    }
+    echo "<th>Perro</th>";
+    if ($rol != "dueño") {
+        echo "<th>Dueño</th>";
+    }
+    echo "<th>Estado</th>
             </tr>
         </thead>
         <tbody>";
 
     foreach ($paseos as $pas) {
-        $idPaseo =$pas->getIdPaseo();
+        $idPaseo = $pas->getIdPaseo();
         $tarifa = $pas->getTarifa();
         $fechaFormateada = date("d/m/Y", strtotime($pas->getFecha()));
         $horaFormateada = date("H:i", strtotime($pas->getHora()));
@@ -48,29 +54,41 @@ if (count($paseos) > 0) {
 
         $patron = '/(' . implode('|', $filtros) . ')/i';
 
+        $tarifaResaltada = preg_replace_callback($patron, function ($coincidencias) {
+            return "<strong>" . $coincidencias[0] . "</strong>";
+        }, $tarifa);
+
         $fecha = preg_replace_callback($patron, function ($coincidencias) {
             return "<strong>" . $coincidencias[0] . "</strong>";
         }, $fechaFormateada);
 
-        $paseadorNombre = preg_replace_callback($patron, function ($coincidencias) {
+        $hora = preg_replace_callback($patron, function ($coincidencias) {
             return "<strong>" . $coincidencias[0] . "</strong>";
-        }, $pas->getIdPaseador()->getNombre());
+        }, $horaFormateada);
 
-        $paseadorApellido = preg_replace_callback($patron, function ($coincidencias) {
-            return "<strong>" . $coincidencias[0] . "</strong>";
-        }, $pas->getIdPaseador()->getApellido());
+        if ($rol != "paseador") {
+            $paseadorNombre = preg_replace_callback($patron, function ($coincidencias) {
+                return "<strong>" . $coincidencias[0] . "</strong>";
+            }, $pas->getIdPaseador()->getNombre());
+
+            $paseadorApellido = preg_replace_callback($patron, function ($coincidencias) {
+                return "<strong>" . $coincidencias[0] . "</strong>";
+            }, $pas->getIdPaseador()->getApellido());
+        }
 
         $perroNombre = preg_replace_callback($patron, function ($coincidencias) {
             return "<strong>" . $coincidencias[0] . "</strong>";
         }, $pas->getPerro()->getNombre());
 
-        $dueñoNombre = preg_replace_callback($patron, function ($coincidencias) {
-            return "<strong>" . $coincidencias[0] . "</strong>";
-        }, $pas->getPerro()->getIdDueño()->getNombre());
+        if ($rol != "dueño") {
+            $dueñoNombre = preg_replace_callback($patron, function ($coincidencias) {
+                return "<strong>" . $coincidencias[0] . "</strong>";
+            }, $pas->getPerro()->getIdDueño()->getNombre());
 
-        $dueñoApellido = preg_replace_callback($patron, function ($coincidencias) {
-            return "<strong>" . $coincidencias[0] . "</strong>";
-        }, $pas->getPerro()->getIdDueño()->getApellido());
+            $dueñoApellido = preg_replace_callback($patron, function ($coincidencias) {
+                return "<strong>" . $coincidencias[0] . "</strong>";
+            }, $pas->getPerro()->getIdDueño()->getApellido());
+        }
 
         $estado = preg_replace_callback($patron, function ($coincidencias) {
             return "<strong>" . $coincidencias[0] . "</strong>";
@@ -79,11 +97,15 @@ if (count($paseos) > 0) {
         echo "<tr>";
         echo "<td>$idPaseo</td>";
         echo "<td>$fecha</td>";
-        echo "<td>$horaFormateada</td>";
-        echo "<td><span class='tarifa-badge'>$" . number_format($tarifa,2) . "</span></td>";
-        echo "<td>$paseadorNombre $paseadorApellido</td>";
+        echo "<td>$hora</td>";
+        echo "<td><span class='tarifa-badge'>$" . $tarifaResaltada . "</span></td>";
+        if ($rol != "paseador") {
+            echo "<td>$paseadorNombre $paseadorApellido</td>";
+        }
         echo "<td>$perroNombre</td>";
-        echo "<td>$dueñoNombre $dueñoApellido</td>";
+        if ($rol != "dueño") {
+            echo "<td>$dueñoNombre $dueñoApellido</td>";
+        }
         echo "<td><div class='rounded-pill ' style='background: rgba(0, 0, 0, 0.1);'><span class='$claseEstado fw-bold'>$estado</span></div></td>";
         echo "</tr>";
     }

@@ -15,6 +15,7 @@ if (count($paseadores) > 0) {
                     <th>Foto</th>
                     <th>IdPaseador</th>
                     <th>Nombre</th>
+                    <th>Descripcion</th>
                     <th>Correo</th>
                     <th>Teléfono</th>
                     <th>Estado</th>
@@ -31,12 +32,14 @@ if (count($paseadores) > 0) {
 
         $foto = htmlspecialchars($pas->getFoto());
         $nombre = $pas->getNombre();
+        $descripcion = $pas->getDescripcion();
         $apellido = $pas->getApellido();
         $correo = $pas->getCorreo();
         $telefono = $pas->getTelefono();
 
         $patron = '/' . implode('|', array_map('preg_quote', $filtros)) . '/i';
         $nombre = preg_replace_callback($patron, fn($c) => "<strong>{$c[0]}</strong>", $nombre);
+        $descripcion = preg_replace_callback($patron, fn($c) => "<strong>{$c[0]}</strong>", $descripcion);
         $apellido = preg_replace_callback($patron, fn($c) => "<strong>{$c[0]}</strong>", $apellido);
         $correo = preg_replace_callback($patron, fn($c) => "<strong>{$c[0]}</strong>", $correo);
         $telefono = preg_replace_callback($patron, fn($c) => "<strong>{$c[0]}</strong>", $telefono);
@@ -47,6 +50,7 @@ if (count($paseadores) > 0) {
                 <td><img src='$foto' class='rounded-circle' style='width:50px; height:50px; object-fit:cover;' alt='Foto paseador' onerror='this.src=\"img/default-profile.png\"'></td>
                 <td>{$id}</td>
                 <td>{$nombre} {$apellido}</td>
+                <td>{$descripcion}</td>
                 <td>{$correo}</td>
                 <td>{$telefono}</td>
                 <td>

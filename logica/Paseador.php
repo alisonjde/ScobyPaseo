@@ -135,35 +135,32 @@ class Paseador extends Persona
     }
 
 
-    public function actualizar()
-    {
-        $conexion = new Conexion();
-        $paseadorDAO = new PaseadorDAO(
-            $this->id,
-            $this->nombre,
-            $this->apellido,
-            $this->foto,
-            $this->correo,
-            $this->telefono
-        );
+   public function actualizar()
+{
+    $conexion = new Conexion();
+    $paseadorDAO = new PaseadorDAO(
+        $this->id,
+        $this->nombre,
+        $this->apellido,
+        $this->foto,
+        "",
+        $this->telefono,
+        "",
+        $this->descripcion
+    );
 
-        $conexion->abrir();
+    $conexion->abrir();
 
-        try {
-            $conexion->ejecutar("SELECT idPaseador FROM paseador WHERE correo = '" . $this->correo . "' AND idPaseador != '" . $this->id . "'");
-            if ($conexion->filas() > 0) {
-                $conexion->cerrar();
-                throw new Exception("El correo electrónico ya está registrado en otro paseador");
-            }
-            $conexion->ejecutar($paseadorDAO->actualizar());
-            $resultado = true;
-        } catch (Exception) {
-            $resultado = false;
-        } finally {
-            $conexion->cerrar();
-        }
-        return $resultado;
+    try {
+        $conexion->ejecutar($paseadorDAO->actualizar());
+        $resultado = true;
+    } catch (Exception) {
+        $resultado = false;
+    } finally {
+        $conexion->cerrar();
     }
+    return $resultado;
+}
 
     public function actualizarClave($nuevaClave)
     {
@@ -298,9 +295,6 @@ class Paseador extends Persona
 
     $conexion->abrir();
     $conexion->ejecutar($paseadorDAO->cambiarEstado($estadoNuevo));
-
-    
-
     $conexion->cerrar();
 
 }
@@ -336,6 +330,30 @@ class Paseador extends Persona
 
         $conexion->cerrar();
         return $estados;
+    }
+
+    public function buscar() {
+        $conexion = new Conexion();
+        $paseadorDAO = new PaseadorDAO($this->id);
+        $conexion->abrir();
+        $conexion->ejecutar($paseadorDAO->buscar());
+
+        if ($conexion -> filas() == 1) {
+            $datos = $conexion->registro();
+            $this->id = $datos[0];
+            $this->nombre = $datos[1];
+            $this->apellido = $datos[2];
+            $this->telefono = $datos[3];
+            $this->foto = $datos[4];
+            $this->descripcion = $datos[5];
+
+
+            $conexion->cerrar();
+            return true;
+        }
+
+        $conexion->cerrar();
+        return false;
     }
 
 }

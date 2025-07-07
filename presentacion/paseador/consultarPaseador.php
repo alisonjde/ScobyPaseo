@@ -29,6 +29,7 @@ $paseadores = $paseador->consultarTodos();
                             <th>Foto</th>
                             <th>IdPaseador</th>
                             <th>Nombre</th>
+                            <th>Descripcion</th>
                             <th>Correo</th>
                             <th>Teléfono</th>
                             <th>Estado</th>
@@ -50,6 +51,7 @@ $paseadores = $paseador->consultarTodos();
                                     </td>
                                     <td><?php echo $pas->getId(); ?></td>
                                     <td><?php echo $pas->getNombre() . " " . $pas->getApellido(); ?></td>
+                                    <td><?php echo $pas->getDescripcion(); ?></td>
                                     <td><?php echo $pas->getCorreo(); ?></td>
                                     <td><?php echo $pas->getTelefono(); ?></td>
                                     <td>
@@ -63,9 +65,10 @@ $paseadores = $paseador->consultarTodos();
                                             data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                                             <i class="fas fa-sync-alt"></i>
                                         </button>
+                            
                                     </td>
                                 </tr>
-                            <?php
+                                <?php
                             endif;
                         endforeach;
                         ?>
@@ -75,7 +78,6 @@ $paseadores = $paseador->consultarTodos();
         </div>
     </div>
 
-    <!-- Modal para confirmar -->
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -86,10 +88,12 @@ $paseadores = $paseador->consultarTodos();
                         aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>¿Está segur@ de cambiar el estado del paseador con ID <span id="paseador-id-span" class="fw-bold text-success"></span>?</p>
+                    <p>¿Está segur@ de cambiar el estado del paseador con ID <span id="paseador-id-span"
+                            class="fw-bold text-success"></span>?</p>
                     <p>
                         <i class="fas fa-exclamation-triangle fa-lg text-warning me-2"></i>
-                        El usuario <span class="text-danger fw-bold">NO</span> podrá acceder al sistema al cambiar el estado a
+                        El usuario <span class="text-danger fw-bold">NO</span> podrá acceder al sistema al cambiar el
+                        estado a
                         <span class="text-danger fw-bold">Inactivo</span>.
                     </p>
                 </div>
@@ -101,7 +105,6 @@ $paseadores = $paseador->consultarTodos();
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
             $("#filtro").keyup(function () {
