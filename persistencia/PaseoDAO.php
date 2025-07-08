@@ -74,11 +74,13 @@ class PaseoDAO
     public function consultar()
     {
         return "SELECT p.idPaseo, p.tarifa, p.fecha, p.hora,
-                       pa.idPaseador, pa.nombre as nombre_paseador
-                FROM paseo p
-                JOIN paseador pa ON p.paseador_idPaseador = pa.idPaseador
-                WHERE p.idPaseo = " . intval($this->idPaseo);
+               pa.idPaseador, pa.nombre, pa.apellido,
+               p.direccion
+        FROM paseo p
+        JOIN paseador pa ON p.paseador_idPaseador = pa.idPaseador
+        WHERE p.idPaseo = " . intval($this->idPaseo);
     }
+
 
     public function consultarPorPaseador($idPaseador)
     {
@@ -182,8 +184,9 @@ class PaseoDAO
     public function registrar()
     {
         return "INSERT INTO paseo (tarifa, fecha, hora, paseador_idPaseador, estado_paseo_idEstadoPaseo, direccion)
-                VALUES ($this->tarifa, '$this->fecha', '$this->hora', $this->idPaseador, 1, '$this->direccion')";
+            VALUES ($this->tarifa, '$this->fecha', '$this->hora', $this->idPaseador, 1, '$this->direccion')";
     }
+
 
     public function asociarPerro($idPaseo, $idPerro)
     {
@@ -218,5 +221,22 @@ class PaseoDAO
         WHERE pa.idPaseo = '{$this->idPaseo}'
         LIMIT 1
     ";
+    }
+
+    public function obtenerPerrosPorDueño($idPaseo, $idDueño)
+    {
+        return "SELECT 
+                perro.idPerro,
+                perro.nombre,
+                perro.foto,
+                perro.tamaño_idTamaño,
+                dueño.idDueño,
+                dueño.nombre,
+                dueño.apellido
+            FROM paseo_has_perro
+            INNER JOIN perro ON paseo_has_perro.perro_idPerro = perro.idPerro
+            INNER JOIN dueño ON perro.dueño_idDueño = dueño.idDueño
+            WHERE paseo_has_perro.paseo_idPaseo = $idPaseo
+              AND dueño.idDueño = $idDueño";
     }
 }

@@ -110,7 +110,7 @@ class Paseo
         while ($datos = $conexion->registro()) {
             $paseador = new Paseador($datos[4], $datos[5], $datos[6], "", "", "", "", "", "", "");
             $dueño = new Dueño($datos[10], $datos[11], $datos[12]);
-            $perro = new Perro($datos[7], $datos[8], $datos[9], "", $dueño); 
+            $perro = new Perro($datos[7], $datos[8], $datos[9], "", $dueño);
             $estadoPaseo = new EstadoPaseo($datos[13], $datos[14]);
 
             $paseo = new Paseo(
@@ -140,10 +140,13 @@ class Paseo
         $this->tarifa = $datos[1];
         $this->fecha = $datos[2];
         $this->hora = $datos[3];
-        $this->paseador = new Paseador($datos[4], $datos[5], "", "", "", "", "", "", "", "");
+        $this->paseador = new Paseador($datos[4], $datos[5], $datos[6], "", "", "", "", "", "", "");
+        $this->direccion = $datos[7];
+
 
         $conexion->cerrar();
     }
+
 
     public function consultarPendiente()
     {
@@ -313,5 +316,24 @@ class Paseo
 
         $conexion->cerrar();
         return $dueño;
+    }
+
+    public function obtenerPerrosPorDueño($idDueño)
+    {
+        $conexion = new Conexion();
+        $paseoDAO = new PaseoDAO();
+        $conexion->abrir();
+        $conexion->ejecutar($paseoDAO->obtenerPerrosPorDueño($this->idPaseo, $idDueño));
+
+        $perros = [];
+
+        while (($datos = $conexion->registro()) !== null) {
+            $dueño = new Dueño($datos[4], $datos[5], $datos[6]);
+            $perro = new Perro($datos[0], $datos[1], $datos[2], $datos[3], $dueño);
+            $perros[] = $perro;
+        }
+
+        $conexion->cerrar();
+        return $perros;
     }
 }

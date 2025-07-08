@@ -43,6 +43,7 @@ require("logica/Paseo.php");
         "presentacion/sesionAdmin.php",
         "presentacion/sesionPaseador.php",
         "presentacion/sesionDueño.php",
+        "presentacion/descargarPaseo.php",
         "presentacion/paseador/crearPaseador.php",
         "presentacion/paseador/consultarPaseador.php",
         "presentacion/paseador/editarPaseador.php",
