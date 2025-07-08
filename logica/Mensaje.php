@@ -82,7 +82,7 @@ class Mensaje
 
         $notificacion = 0;
 
-    
+
         if ($conexion->filas() > 0) {
             $fila = $conexion->registro();
             if ($fila !== null && isset($fila[0])) {
@@ -103,13 +103,16 @@ class Mensaje
         $conexion->ejecutar($mensajeDAO->consultarMensajes());
 
         $mensajes = array();
-        while (($datos = $conexion->registro()) != null) {
-            $paseador = new Paseador($datos[6], $datos[7], $datos[8]);
-            $perro = new Perro($datos[9], $datos[10]);
-            $paseo = new Paseo($datos[1], $datos[4], $datos[2], $datos[3], $paseador, "", $perro);
-            $dueño = new Dueño($this->dueño);
-            $mensaje = new Mensaje($datos[0], $paseador, $paseo, $dueño, $datos[5], $datos[11]);
-            array_push($mensajes, $mensaje);
+
+        if ($conexion->filas() > 0) {
+            while (($datos = $conexion->registro()) != null) {
+                $paseador = new Paseador($datos[6], $datos[7], $datos[8]);
+                $perro = new Perro($datos[9], $datos[10]);
+                $paseo = new Paseo($datos[1], $datos[4], $datos[2], $datos[3], $paseador, "", $perro);
+                $dueño = new Dueño($this->dueño);
+                $mensaje = new Mensaje($datos[0], $paseador, $paseo, $dueño, $datos[5], $datos[11]);
+                array_push($mensajes, $mensaje);
+            }
         }
 
         $conexion->cerrar();

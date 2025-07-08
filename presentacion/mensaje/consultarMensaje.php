@@ -13,15 +13,6 @@ $mensajes = $mensaje->consultarMensajes();
 
 ?>
 
-<style>
-
-        
-    
-
-        
-        
-        
-    </style>
 </head>
 <body class="container-custom">
     <div class="container mt-4">
