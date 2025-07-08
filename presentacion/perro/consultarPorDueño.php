@@ -80,7 +80,8 @@ $rol = $_SESSION["rol"];
                     <tbody>
                         <?php
                         $perro = new Perro("", "", "", "", $id);
-                        $perros = $perro->consultarPorDueño();
+                       $perros = $perro->consultarPorDueño($id);
+
                         foreach ($perros as $per) {
                             ?>
                             <tr>

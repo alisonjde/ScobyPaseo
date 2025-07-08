@@ -6,6 +6,7 @@ require_once("logica/Dueño.php");
 require_once("logica/Perro.php");
 require_once("logica/EstadoPaseo.php");
 
+
 class Paseo
 {
     private $idPaseo;
@@ -121,8 +122,8 @@ class Paseo
                 $paseador,
                 $estadoPaseo,
                 $perro
-                
-                
+
+
             );
             array_push($paseos, $paseo);
         }
@@ -170,11 +171,11 @@ class Paseo
         $conexion->ejecutar($paseoDAO->buscar($filtros));
 
         $paseos = array();
-         while ($datos = $conexion->registro()) {
+        while ($datos = $conexion->registro()) {
             $paseador = new Paseador($datos[4], $datos[5], $datos[6], "", "", "", "", "", "", "");
-            $dueño = new Dueño($datos[9],$datos[10],$datos[11]);
-            $perro = new Perro($datos[7],$datos[8],"","",$dueño);
-            $estadoPaseo = new EstadoPaseo($datos[12],$datos[13]);
+            $dueño = new Dueño($datos[9], $datos[10], $datos[11]);
+            $perro = new Perro($datos[7], $datos[8], "", "", $dueño);
+            $estadoPaseo = new EstadoPaseo($datos[12], $datos[13]);
             $dueño = new Dueño($datos[6], $datos[7], $datos[8]);
             $perro = new Perro($datos[4], $datos[5], null, null, $dueño);
             $paseo = new Paseo($datos[0], $datos[3], $datos[1], $datos[2], $idPaseador, "", $perro);
@@ -341,5 +342,25 @@ class Paseo
 
         $conexion->cerrar();
         return $perros;
+    }
+
+    public function consultarPorPaseador($idPaseador)
+    {
+        $conexion = new Conexion();
+        $paseoDAO = new PaseoDAO();
+        $conexion->abrir();
+        $conexion->ejecutar($paseoDAO->consultarPorPaseador($idPaseador));
+
+        $paseos = [];
+        while ($datos = $conexion->registro()) {
+            $paseador = new Paseador($datos[4], $datos[5], $datos[6]);
+            $perro = new Perro($datos[7], $datos[8]);
+            $estado = new EstadoPaseo($datos[9], $datos[10]);
+            $paseo = new Paseo($datos[0], $datos[1], $datos[2], $datos[3], $paseador, $estado, $perro);
+            $paseos[] = $paseo;
+        }
+
+        $conexion->cerrar();
+        return $paseos;
     }
 }
