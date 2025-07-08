@@ -53,7 +53,7 @@ class Mensaje {
         $mensajeDAO = new MensajeDAO("", $this->paseador, $this->paseo);
         $conexion->ejecutar($mensajeDAO->existe());
            if ($conexion->filas() >= 1) {
-            $this->id = $conexion->registro()[0];
+            $this->idMensaje = $conexion->registro()[0];
             $conexion->cerrar();
             return true;
         } else {
