@@ -17,7 +17,7 @@
           <div class="row align-items-center">
             <div class="col-md-6">
               <h2 class="section-title">¿Quiénes somos?</h2>
-              <p>Perritours es una plataforma que conecta dueños de mascotas con paseadores de confianza. Ofrecemos una forma fácil y segura de programar paseos, pagar electrónicamente y obtener reportes y facturas. Cada paseo es monitoreado y verificado para que tú estés tranquilo mientras tu perrito disfruta.</p>
+              <p>scoobyPaseo es una plataforma que conecta dueños de mascotas con paseadores de confianza. Ofrecemos una forma fácil y segura de programar paseos, pagar electrónicamente y obtener reportes y facturas. Cada paseo es monitoreado y verificado para que tú estés tranquilo mientras tu perrito disfruta.</p>
             </div>
             <div class="col-md-6 text-center">
               <img src="imagenes/quienes.png" class="img-fluid" alt="Nosotros">
@@ -117,7 +117,7 @@
       <div class="row mb-3">
         <div class="col-md-4">
           <h6>Contacto</h6>
-          <p>Email: info@perritours.com</p>
+          <p>Email: scoobypaseo@gmail.com</p>
           <p>Tel: +57 300 123 4567</p>
         </div>
         <div class="col-md-4">
@@ -130,7 +130,7 @@
         </div>
       </div>
       <hr style="background-color: #444;">
-      <p class="small">&copy; 2025 Perritours. Todos los derechos reservados.</p>
+      <p class="small">&copy; 2025 SboobyPaseo. Todos los derechos reservados.</p>
     </div>
   </footer>
 

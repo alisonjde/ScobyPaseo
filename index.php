@@ -4,7 +4,10 @@ require("logica/Admin.php");
 require("logica/Dueño.php");
 require("logica/Paseador.php");
 require("logica/Perro.php");
+require ("logica/Tamaño.php");
 require("logica/Paseo.php");
+require ("logica/EstadoPaseo.php");
+require ("logica/EstadoPaseador.php");
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -44,23 +47,23 @@ require("logica/Paseo.php");
         "presentacion/sesionPaseador.php",
         "presentacion/sesionDueño.php",
         "presentacion/descargarPaseo.php",
-        "presentacion/paseador/crearPaseador.php",
-        "presentacion/paseador/consultarPaseador.php",
-        "presentacion/paseador/editarPaseador.php",
-        "presentacion/paseador/cambiarEstadoPaseador.php",
-        "presentacion/paseador/eliminarPaseador.php",
-        "presentacion/dueño/consultarDueño.php",
+            "presentacion/paseador/consultarPaseador.php",
+            "presentacion/paseador/cambiarEstadoPaseador.php",
+            "presentacion/dueño/consultarDueño.php",
         "presentacion/perro/consultarPerro.php",
         "presentacion/paseador/ofertaPaseo.php",
         "presentacion/perro/consultarPorDueño.php",
-        "presentacion/perro/crearPerro.php",
+       "presentacion/perro/crearPerro.php",
         "presentacion/paseador/crearPerro.php",
         "presentacion/paseito/consultarPaseo.php",
         "presentacion/paseito/agendarPaseo.php",
         "presentacion/paseador/confirmarPaseador.php",
         "presentacion/paseito/pedirPaseo.php",
         "presentacion/paseito/Info-PaseadorDueño.php",
-        "presentacion/paseito/consultarPaseo_paseador.php"
+        "presentacion/paseito/consultarPaseo_paseador.php",
+    "presentacion/paseito/consultarPaseoAdmin.php",
+    "presentacion/paseador/actualizarPaseador.php",
+    "presentacion/paseador/respuestaActualizarPaseador.php",
     );
 
     if (!isset($_GET["pid"])) {

@@ -65,14 +65,15 @@ class Perro
         $conexion->ejecutar($perroDAO->consultarPorDueño($idDueño));
 
         $perros = array();
-        while ($datos = $conexion->registro()) {
+        while($datos = $conexion->registro()) {
+            $tamaño = new Tamaño($datos[3], $datos[4]);
             $perro = new Perro(
                 $datos[0],
                 $datos[1],
-                $datos[3], 
-                $datos[2], 
-                new Dueño($idDueño, $datos[4]) 
-            );
+                $datos[2],
+                $tamaño,
+                new Dueño($this -> idDueño, $datos[5])
+                );
             array_push($perros, $perro);
         }
 
@@ -129,3 +130,4 @@ class Perro
         return $perros;
     }
 }
+?>

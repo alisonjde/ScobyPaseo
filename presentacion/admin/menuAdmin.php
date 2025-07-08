@@ -1,15 +1,11 @@
 <?php
 $id = $_SESSION["id"];
 include("presentacion/fondo.php");
-
 ?>
-
-
-
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
 
-        <a class="navbar-brand fs-4" href="?pid=<?php echo base64_encode("presentacion/inicio.php") ?>">
+        <a title="sesion de usuario" class="navbar-brand fs-4" href="?pid=<?php echo base64_encode("presentacion/sesionAdmin.php") ?>">
             <img src="imagenes/logo.png" alt="Logo" style="height: 50px; width: auto; margin-right: 10px;">
             Scooby-Paseo
         </a>
@@ -28,10 +24,8 @@ include("presentacion/fondo.php");
                         Paseadores
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item text-light" href="?pid=<?php echo base64_encode("presentacion/paseador/crearPaseador.php") ?>">Crear Paseador</a></li>
-                        <li><a class="dropdown-item text-light" href="?pid=<?php echo base64_encode("presentacion/paseador/consultarPaseador.php") ?>">Consultar Paseadores</a></li>
-                        <li><a class="dropdown-item text-light" href="?pid=<?php echo base64_encode("presentacion/paseador/editarPaseador.php") ?>">Editar Paseadores</a></li>
-                        <li><a class="dropdown-item text-light" href="?pid=<?php echo base64_encode("presentacion/paseador/eliminarPaseador.php") ?>">Eliminar Paseadores</a></li>
+                        <li><a class="dropdown-item text-light" href="?pid=<?php echo base64_encode("presentacion/paseador/consultarPaseador.php") ?>">Consultar</a></li>
+                        <li><a class="dropdown-item text-light" href="?pid=<?php echo base64_encode("presentacion/paseador/actualizarPaseador.php") ?>">Actualizar</a></li>
                     </ul>
                 </li>
 
@@ -61,7 +55,7 @@ include("presentacion/fondo.php");
                         Paseos
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item text-light" href="?pid=<?php echo base64_encode("presentacion/paseito/consultarPaseo.php") ?>">Consultar Paseos</a></li>
+                        <li><a class="dropdown-item text-light" href="?pid=<?php echo base64_encode("presentacion/paseito/consultarPaseoAdmin.php") ?>">Consultar Paseos</a></li>
                     </ul>
                 </li>
 

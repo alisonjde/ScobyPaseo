@@ -15,8 +15,9 @@ class PerroDAO {
     }
     
     public function consultarPorDueño($idDueño) {
-        return "SELECT p.idPerro, p.nombre, p.tamaño_idTamaño, p.foto, d.nombre as nombre_dueño
+        return "SELECT p.idPerro, p.nombre, p.foto, t.idTamaño, t.tamaño, d.nombre
                 FROM perro p
+                JOIN tamaño t ON p.tamaño_idTamaño = t.idTamaño
                 JOIN dueño d ON p.dueño_idDueño = d.idDueño
                 WHERE p.dueño_idDueño = $idDueño
                 ORDER BY p.nombre";
@@ -26,15 +27,6 @@ class PerroDAO {
         return "SELECT COUNT(idPerro) 
                 FROM perro 
                 WHERE dueño_idDueño = " . $this ->idDueño;
-    }
-
-    public function crear() {
-        return "INSERT INTO perro (idPerro, nombre, foto, tamaño_idTamaño, dueño_idDueño)
-            VALUES ('" . $this->idPerro . "',
-                    '" . $this->nombre . "',
-                    '" . $this->foto . "',
-                     '" . $this->idTamaño . "',
-                    " . $this->idDueño . ")";
     }
 
     public function buscar($filtros){
@@ -65,6 +57,14 @@ class PerroDAO {
                     ORDER BY p.nombre ASC";
 
         return $sentencia;
+    }
+
+    public function insertar() {
+        return "Insert INTO perro (nombre, foto, tamaño_idTamaño, dueño_idDueño)
+                VALUES ('" . $this->nombre . "',
+                        '" . $this->foto . "',
+                        '" . $this->idTamaño . "',
+                        " . $this->idDueño . ")";
     }
 
 }
