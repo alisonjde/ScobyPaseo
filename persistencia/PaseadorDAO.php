@@ -207,5 +207,8 @@ class PaseadorDAO
             FROM paseador p
             WHERE p.idPaseador = '$this->id'";
 }
+    public function activo(){
+        return "SELECT idEstado FROM paseador WHERE idPaseador =  $this->id ";
+    }
 
 }

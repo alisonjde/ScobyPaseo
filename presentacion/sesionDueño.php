@@ -20,10 +20,12 @@ if ($_SESSION["rol"] != "dueño") {
             <h1 class="display-6">¡Hola, <?php echo $dueño->getNombre() ?>!</h1>
             <?php echo "<p style='color: yellow;'>Ruta de la imagen: " . $dueño->getFoto() . "</p>"; ?>
 
-            <img src="<?php echo $dueño->getFoto(); ?>"
+
+                <img src="<?php echo $dueño->getFoto(); ?>"
                 class="rounded-circle"
                 style="width: 100%; max-width: 150px;"
-                alt="Foto de <?php echo $dueño->getNombre(); ?>">
+                alt="Foto de <?php echo $dueño->getNombre(); ?>"
+                onerror="this.onerror=null; this.src='img/image.png';">
 
 
             <div class="card m-3 mx-auto" style="max-width: 40rem; background-color: transparent; border: 3px solid black;">

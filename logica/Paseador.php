@@ -384,4 +384,19 @@ class Paseador extends Persona
         return false;
     }
 
+    public function activo($id) {
+        $conexion = new Conexion();
+        $paseadorDAO = new PaseadorDAO($id);
+        $conexion->abrir();
+        $conexion->ejecutar($paseadorDAO->activo());
+        $datos = $conexion->registro();
+        $conexion->cerrar();
+
+    if ($datos && $datos[0] == 1) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 }

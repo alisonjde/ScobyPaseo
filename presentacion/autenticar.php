@@ -20,9 +20,14 @@ if (isset($_POST["autenticar"])) {
         $paseador = new Paseador("", "", "", "", $correo, "", $clave);
         if ($paseador->autenticar()) {
             $_SESSION["id"] = $paseador->getId();
-            $_SESSION["rol"] = "paseador";
-            header("Location: ?pid=" . base64_encode("presentacion/sesionPaseador.php"));
-            exit();
+            if($paseador->activo($_SESSION["id"])){
+                $_SESSION["estado"] = "activo";
+                $_SESSION["rol"] = "paseador";
+                header("Location: ?pid=" . base64_encode("presentacion/sesionPaseador.php"));
+                exit();
+            } else{
+                $error = true;
+            }
         } else {
             $dueño = new Dueño("", "", "", "", $correo, "", $clave);
             if ($dueño->autenticar()) {
@@ -84,7 +89,7 @@ if (isset($_POST["autenticar"])) {
             <?php if ($error): ?>
                 <div class="alert alert-danger mt-3 d-flex align-items-center" role="alert">
                     <i class="fas fa-exclamation-circle me-2"></i>
-                    Credenciales incorrectas
+                    Credenciales incorrectas o cuenta inactiva.
                 </div>
             <?php endif; ?>
         </form>
