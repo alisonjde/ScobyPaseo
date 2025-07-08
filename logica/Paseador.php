@@ -1,7 +1,7 @@
 <?php
 require_once("persistencia/Conexion.php");
 require_once("persistencia/PaseadorDAO.php");
-
+require_once("logica/Persona.php");
 
 
 

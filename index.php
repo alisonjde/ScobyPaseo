@@ -7,6 +7,7 @@ require("logica/Perro.php");
 require("logica/Tamaño.php");
 require("logica/Paseo.php");
 require("logica/EstadoPaseo.php");
+require("logica/EstadoPaseador.php");
 require("logica/Mensaje.php");
 
 ?>
