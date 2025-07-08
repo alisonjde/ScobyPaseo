@@ -1,5 +1,8 @@
 <?php
   include("presentacion/fondo.php");
+  $id = $_SESSION["id"];
+  $mensaje = new Mensaje("", "", "", $id, "", "");
+  $notificaciones = $mensaje->notificacion();
 ?>
 
 <nav class="navbar navbar-expand-lg navbar-dark">
@@ -39,6 +42,16 @@
                     </ul>
                 </li>
             </ul>
+            <?php if($notificaciones > 0){
+                echo '<a href="?pid=' . base64_encode("presentacion/mensaje/consultarMensaje.php") . '" class="btn btn-light text-success fw-bold me-2">
+                        <i class="fas fa-bell"></i> Mensajes <span class="badge bg-danger">' . $notificaciones . '</span>
+                      </a>';
+            } else {
+                echo '<a href="?pid=' . base64_encode("presentacion/mensaje/consultarMensaje.php") . '" class="btn btn-light text-success fw-bold me-2">
+                        <i class="fas fa-bell"></i> Mensajes
+                      </a>';
+            }?>
+
             <a href="?pid=<?php echo base64_encode("presentacion/autenticar.php") ?>&sesion=false"
                 class="btn btn-light text-success fw-bold" type="submit">Cerrar Sesión</a>
         </div>

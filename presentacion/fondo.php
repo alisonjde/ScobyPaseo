@@ -139,6 +139,18 @@
 
   /* Tablas mostrar datos*/
 
+  .table-custom tbody td {
+    padding: 12px 15px;
+    border-color: #e9ecef;
+    text-align: center;
+  }
+
+  .table-custom {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  }
+
   .table-custom th {
     background-color: rgb(129, 240, 129);
     color: rgb(0, 0, 0);
@@ -156,7 +168,10 @@
   .table-custom tr:hover {
     background-color: rgb(13, 88, 13);
     transition: background-color 0.3s ease;
+    transform: translateY(-2px);
   }
+
+
 
   .tarifa-badge {
     background-color: rgb(165, 248, 168);

@@ -144,3 +144,16 @@ ADD CONSTRAINT `fk_paseador_estado`
   REFERENCES `estados` (`idEstado`)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
+
+
+  CREATE TABLE mensaje (
+    idMensaje INT AUTO_INCREMENT PRIMARY KEY,
+    paseador_idPaseador INT NOT NULL,
+    paseo_idPaseo INT NOT NULL,
+    dueño_idDueño INT NOT NULL,
+    tarifaNueva DECIMAL(10,2) NOT NULL,
+    estado BIT NULL,
+    CONSTRAINT fk_mensaje_paseador FOREIGN KEY (paseador_idPaseador) REFERENCES paseador(idPaseador),
+    CONSTRAINT fk_mensaje_paseo FOREIGN KEY (paseo_idPaseo) REFERENCES paseo(idPaseo),
+    CONSTRAINT fk_mensaje_dueño FOREIGN KEY (dueño_idDueño) REFERENCES dueño(idDueño)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
