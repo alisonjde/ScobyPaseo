@@ -291,5 +291,19 @@ class PaseoDAO
               AND dueño.idDueño = $idDueño";
     }
 
+
+    public function consultarTarifa() {
+        return "SELECT p.idPaseo, p.fecha, p.hora, p.tarifa, d.idDueño, d.nombre, d.apellido, pe.idPerro, pe.nombre, pe.foto  FROM paseo p
+        JOIN paseador pa ON p.paseador_idPaseador = pa.idPaseador
+        JOIN paseo_has_perro pp ON p.idPaseo = pp.paseo_idPaseo
+        JOIN perro pe ON pp.perro_idPerro = pe.idPerro
+        JOIN dueño d ON pe.dueño_idDueño = d.idDueño
+        WHERE p.paseador_idPaseador = $this->idPaseador AND p.estado_paseo_idEstadoPaseo = 2";
+    }
+
+    public function cancelarPaseo(){
+        return "UPDATE paseo SET estado_paseo_idEstadoPaseo = 4 WHERE idPaseo = $this->idPaseo";
+    }
+
     
 }

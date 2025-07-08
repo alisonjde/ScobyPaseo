@@ -342,4 +342,42 @@ class Paseo
         $conexion->cerrar();
         return $paseos;
     }
+
+    public function consultarTarifa()
+{
+    $conexion = new Conexion();
+    $paseoDAO = new PaseoDAO("","","","",$this->idPaseador);
+    $conexion->abrir();
+    $conexion->ejecutar($paseoDAO->consultarTarifa());
+
+    $paseos= array();
+    while($datos = $conexion->registro()){
+        $dueño = new Dueño($datos[4], $datos[5], $datos[6]);
+        $perro = new Perro($datos[7], $datos[8], $datos[9], "", $dueño);
+        $paseo = new Paseo(
+            $datos[0],  // idPaseo
+            $datos[3],  // tarifa
+            $datos[1],  // fecha
+            $datos[2],  // hora
+            $this->idPaseador,  // usar el paseador actual
+            "",         // idEstadoPaseo
+            $perro
+        );
+        array_push($paseos, $paseo);
+    }
+   
+    $conexion->cerrar();
+    return $paseos;
+}
+
+    public function cancelarPaseo()
+    {
+        $conexion = new Conexion();
+        $paseoDAO = new PaseoDAO($this->idPaseo);
+        $conexion->abrir();
+        $conexion->ejecutar($paseoDAO->cancelarPaseo());
+        $resultado = $conexion->filasAfectadas();
+        $conexion->cerrar();
+        return $resultado > 0;
+    }
 }

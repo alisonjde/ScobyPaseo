@@ -33,8 +33,9 @@
                         Paseos
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item text-light" href="?pid=<?php echo base64_encode("presentacion/paseador/ofertaPaseo.php") ?>">Oferta de paseos</a></li>
-                        <a class="dropdown-item text-light" href="?pid=<?php echo base64_encode("presentacion/paseito/consultarPaseo_paseador.php") ?>">Consultar mis paseos</a>
+                        <li><a class="dropdown-item text-light" href="#">Oferta de paseos</a></li>
+                        <li><a class="dropdown-item text-light" href="?pid=<?php echo base64_encode("presentacion/paseito/consultarPaseo.php") ?>">Consultar mis paseos</a></li>
+                        <li><a class="dropdown-item text-light" href="?pid=<?php echo base64_encode("presentacion/paseito/modificarTarifa.php") ?>">Modificar Tarifa</a></li>
                     </ul>
                 </li>
             </ul>

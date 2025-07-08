@@ -8,6 +8,7 @@ require ("logica/Tamaño.php");
 require("logica/Paseo.php");
 
 require ("logica/EstadoPaseador.php");
+require ("logica/Mensaje.php");
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -64,7 +65,11 @@ require ("logica/EstadoPaseador.php");
     "presentacion/paseito/consultarPaseoAdmin.php",
     "presentacion/paseador/actualizarPaseador.php",
     "presentacion/paseador/respuestaActualizarPaseador.php",
-    );
+        "presentacion/paseito/modificarTarifa.php",
+    "presentacion/paseito/respuestaTarifa.php",
+    "presentacion/mensaje/consultarMensaje.php",
+    "presentacion/mensaje/respuestaMensaje.php",
+);
 
     if (!isset($_GET["pid"])) {
         include("presentacion/inicio.php");
