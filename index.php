@@ -47,6 +47,7 @@ require("logica/Mensaje.php");
     $paginas_con_autenticacion = array(
         "presentacion/sesionAdmin.php",
         "presentacion/sesionPaseador.php",
+        "presentacion/perro/editarPerro.php",
         "presentacion/sesionDueño.php",
         "presentacion/descargarPaseo.php",
         "presentacion/paseador/consultarPaseador.php",

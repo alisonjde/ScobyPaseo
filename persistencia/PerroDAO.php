@@ -75,4 +75,12 @@ class PerroDAO
                         '" . $this->idTamaño . "',
                         " . $this->idDueño . ")";
     }
+
+    public function buscarPorId($idPerro)
+    {
+        return "SELECT p.idPerro, p.nombre, p.foto, t.idTamaño, t.tamaño
+            FROM perro p
+            JOIN tamaño t ON p.tamaño_idTamaño = t.idTamaño
+            WHERE p.idPerro = '$idPerro'";
+    }
 }

@@ -92,7 +92,7 @@ $rol = $_SESSION["rol"];
                                 </td>
                                 <td><?php echo $per->getNombre() ?></td>
                                 <td><?php echo $per->getIdTamaño()->getTamaño() ?></td>
-
+                                    
                                 <td>
                                     <a href="?pid=<?php echo base64_encode("presentacion/perro/editarPerro.php") ?>&idPerro=<?php echo $per->getIdPerro() ?>"
                                         class="btn btn-sm btn-primary" title="Editar perro">
