@@ -163,28 +163,7 @@ class Paseo
         return $datos[0];
     }
 
-    public function buscar2($filtros)
-    {
-        $conexion = new Conexion();
-        $conexion->abrir();
-        $paseoDAO = new PaseoDAO();
-        $conexion->ejecutar($paseoDAO->buscar($filtros));
-
-        $paseos = array();
-        while ($datos = $conexion->registro()) {
-            $paseador = new Paseador($datos[4], $datos[5], $datos[6], "", "", "", "", "", "", "");
-            $dueño = new Dueño($datos[9], $datos[10], $datos[11]);
-            $perro = new Perro($datos[7], $datos[8], "", "", $dueño);
-            $estadoPaseo = new EstadoPaseo($datos[12], $datos[13]);
-            $dueño = new Dueño($datos[6], $datos[7], $datos[8]);
-            $perro = new Perro($datos[4], $datos[5], null, null, $dueño);
-            $paseo = new Paseo($datos[0], $datos[3], $datos[1], $datos[2], $idPaseador, "", $perro);
-            array_push($paseos, $paseo);
-        }
-
-        $conexion->cerrar();
-        return $paseos;
-    }
+   
 
     public function buscarPorPaseador($filtros, $idPaseador)
     {

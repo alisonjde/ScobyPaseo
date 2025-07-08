@@ -99,7 +99,7 @@ class Perro
                 throw new Exception("El ID del perro ya existe");
             }
 
-            $conexion->ejecutar($perroDAO->crear());
+            $conexion->ejecutar($perroDAO->insertar());
             $resultado = true;
 
         }catch(Exception){
