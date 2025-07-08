@@ -7,22 +7,23 @@ if ($_SESSION["rol"] != "dueño") {
     exit();
 }
 
-parse_str($_SERVER["QUERY_STRING"], $params);
-$idPerro = $params["idPerro"] ?? null;
 
-$perro = null;
+$idPerro = isset($_GET["idPerro"]) ? intval($_GET["idPerro"]) : null;
 
-if ($idPerro) {
-    $perro = new Perro($idPerro);
-    if (!$perro->buscarPorId()) {
-        echo "<div class='alert alert-danger'>Perro no encontrado.</div>";
-        exit();
-    }
-} else {
+echo "ID recibido: " . $idPerro; 
+
+if (!$idPerro) {
     echo "<div class='alert alert-warning'>ID del perro no especificado.</div>";
     exit();
 }
+
+$perro = new Perro($idPerro);
+if (!$perro->buscarPorId()) {
+    echo "<div class='alert alert-danger'>Perro no encontrado.</div>";
+    exit();
+}
 ?>
+
 
 
 
