@@ -1,4 +1,6 @@
 <?php
+
+
 Class EstadoPaseo{
     
     private $idEstadoPaseo;
@@ -8,6 +10,7 @@ Class EstadoPaseo{
         $this -> idEstadoPaseo = $idEstadoPaseo;
         $this -> estado = $estado;
     }
+    
     
     public function getIdEstadoPaseo() {
         return $this->idEstadoPaseo;

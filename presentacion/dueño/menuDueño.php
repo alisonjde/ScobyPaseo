@@ -37,7 +37,7 @@
                         Paseos
                     </a>
                     <ul class="dropdown-menu" >
-                        <li><a class="dropdown-item text-light" href="#">Agendar Paseo</a></li>
+                        <li><a class="dropdown-item text-light" href="?pid=<?php echo base64_encode("presentacion/paseito/agendarPaseo.php") ?>">Agendar Paseo</a></li>
                         <a class="dropdown-item text-light" href="?pid=<?php echo base64_encode("presentacion/paseito/consultarPaseo.php") ?>">Consultar paseos</a>
                     </ul>
                 </li>

@@ -102,3 +102,15 @@ INSERT INTO disponibilidad (idPaseador, idDia, horaInicio, horaFin)
 VALUES (1, 3, '14:00:00', '17:00:00');
 
 INSERT INTO `estadoPaseador` (`estado`) VALUES ('activo'), ('inactivo');
+
+
+UPDATE paseo SET direccion = 'Calle 10 #15-20' WHERE idPaseo = 1;
+UPDATE paseo SET direccion = 'Carrera 7 #45-78' WHERE idPaseo = 2;
+UPDATE paseo SET direccion = 'Calle 23 #12-34' WHERE idPaseo = 3;
+UPDATE paseo SET direccion = 'Avenida Siempre Viva #742' WHERE idPaseo = 4;
+UPDATE paseo SET direccion = 'Transversal 60 #90-12' WHERE idPaseo = 5;
+UPDATE paseo SET direccion = 'Calle 50 #32-88' WHERE idPaseo = 6;
+UPDATE paseo SET direccion = 'Carrera 20 #60-10' WHERE idPaseo = 7;
+UPDATE paseo SET direccion = 'Diagonal 30 #40-55' WHERE idPaseo = 8;
+UPDATE paseo SET direccion = 'Calle 80 #70-60' WHERE idPaseo = 9;
+UPDATE paseo SET direccion = 'Carrera 100 #22-11' WHERE idPaseo = 10;

@@ -7,7 +7,7 @@ class Conexion
 
     public function abrir()
     {
-        $this->conexion = new mysqli("localhost", "root", "", "scoobypaseo",4309);
+        $this->conexion = new mysqli("localhost", "root", "", "scoobypaseo");
     }
 
     public function cerrar()
@@ -43,5 +43,10 @@ class Conexion
     public function filasAfectadas()
     {
         return $this->conexion->affected_rows;
+    }
+
+    public function obtenerIdInsertado()
+    {
+        return $this->conexion->insert_id;
     }
 }

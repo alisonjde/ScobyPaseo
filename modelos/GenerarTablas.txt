@@ -146,6 +146,10 @@ ADD CONSTRAINT `fk_paseador_estado`
   ON UPDATE NO ACTION;
 
 
+ALTER TABLE paseo
+ADD COLUMN direccion VARCHAR(100) NOT NULL;
+
+
   CREATE TABLE mensaje (
     idMensaje INT AUTO_INCREMENT PRIMARY KEY,
     paseador_idPaseador INT NOT NULL,

@@ -10,13 +10,12 @@
 
     if ($id) {
         $paseador = new Paseador($id);
-        $paseador->consultar(); 
+        $paseador->consultar2();
     } else {
         echo "<div class='alert alert-danger text-center'>ID no proporcionado.</div>";
         exit;
     }
     ?>
-    
 
 
 
@@ -38,8 +37,14 @@
                                 <p class="card-text"><strong>Correo:</strong> <?php echo $paseador->getCorreo(); ?></p>
                                 <p class="card-text"><strong>Teléfono:</strong> <?php echo $paseador->getTelefono(); ?></p>
                                 <p class="card-text"><strong>Descripción:</strong><br><?php echo nl2br($paseador->getDescripcion()); ?></p>
+
                                 <a href="javascript:history.back()" class="btn btn-outline-success mt-3">← Volver</a>
+                                <a href="?pid=<?php echo base64_encode("presentacion/autenticar.php"); ?>" class="btn btn-outline-success mt-3 ms-2">Pedir Paseo</a>
+
+
+
                             </div>
+
                         </div>
                     </div>
                 </div>

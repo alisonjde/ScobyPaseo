@@ -40,6 +40,15 @@ class PaseadorDAO
                 FROM paseador
                 WHERE idPaseador = '" . $this->id . "'";
     }
+    
+    public function consultar2()
+    {
+        return "SELECT nombre, apellido, correo, telefono, foto, descripcion
+            FROM paseador
+            WHERE idPaseador = '" . $this->id . "'";
+    }
+
+
 
     public function consultarTodos()
     {
@@ -99,7 +108,7 @@ class PaseadorDAO
 {
     $condiciones = [];
     foreach ($filtros as $filtro) {
-        $condiciones[] = "(p.nombre LIKE '%$filtro%' OR p.descripcion LIKE '%$filtro%' OR p.apellido LIKE '%$filtro%' OR p.correo LIKE '%$filtro%' OR p.telefono LIKE '%$filtro%')";
+        $condiciones[] = "( p.nombre LIKE '%$filtro%' OR p.descripcion LIKE '%$filtro%' OR p.apellido LIKE '%$filtro%' OR p.correo LIKE '%$filtro%' OR p.telefono LIKE '%$filtro%' OR e.estado LIKE '%$filtro%')";
     }
 
     $consultaFiltros = implode(" AND ", $condiciones);

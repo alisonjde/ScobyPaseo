@@ -3,6 +3,8 @@ require_once("persistencia/Conexion.php");
 require_once("persistencia/PaseadorDAO.php");
 require_once("logica/Persona.php");
 
+
+
 class Paseador extends Persona
 {
     private $descripcion;
@@ -65,6 +67,32 @@ class Paseador extends Persona
         $this->foto = $datos[3];
         $conexion->cerrar();
     }
+
+    public function consultar2()
+{
+    $conexion = new Conexion();
+    $paseadorDAO = new PaseadorDAO($this->id);
+    $conexion->abrir();
+    $conexion->ejecutar($paseadorDAO->consultar2());
+    $datos = $conexion->registro();
+    $conexion->cerrar();
+
+    if ($datos == null) {
+        return false;
+    }
+
+    $this->nombre = $datos[0];
+    $this->apellido = $datos[1];
+    $this->correo = $datos[2];
+    $this->telefono = $datos[3];
+    $this->foto = $datos[4];
+    $this->descripcion = $datos[5];
+
+    return true; // Éxito
+}
+
+
+
 
     public function consultarTodos()
     {

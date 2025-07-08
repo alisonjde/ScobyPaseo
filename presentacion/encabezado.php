@@ -1,5 +1,6 @@
 <?php
-include("presentacion/fondo.php");
+include("fondo.php");
+
 ?>
 
 <nav class="navbar navbar-expand-lg navbar-dark">
@@ -31,7 +32,8 @@ include("presentacion/fondo.php");
                     <a class="nav-link" href="#services">Servicios</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#stats">Estadísticas</a>
+                    <a class="nav-link" href="?pid=<?php echo base64_encode("presentacion/estadisticas.php") ?>">Estadísticas</a>
+                    
                 </li>
             </ul>
 
