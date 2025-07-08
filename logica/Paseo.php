@@ -70,20 +70,19 @@ class Paseo
     }
 
 
-    public function consultarTodos($id = "", $rol = "")
+    public function consultarTodos($id, $rol, $filtros = [])
     {
         $conexion = new Conexion();
         $paseoDAO = new PaseoDAO();
         $conexion->abrir();
-        $conexion->ejecutar($paseoDAO->consultarTodos($id, $rol));
+        $conexion->ejecutar($paseoDAO->consultarTodos($id, $rol, $filtros));
 
         $paseos = array();
         while ($datos = $conexion->registro()) {
             $paseador = new Paseador($datos[4], $datos[5], $datos[6], "", "", "", "", "", "", "");
-            $dueño = new Dueño($datos[9], $datos[10], $datos[11]);
-            $perro = new Perro($datos[7], $datos[8], "", "", $dueño);
-            $estadoPaseo = new EstadoPaseo($datos[12], $datos[13]);
-
+            $dueño = new Dueño($datos[9],$datos[10],$datos[11]);
+            $perro = new Perro($datos[7],$datos[8],"","",$dueño);
+            $estadoPaseo = new EstadoPaseo($datos[12],$datos[13]);
             $paseo = new Paseo(
                 $datos[0],
                 $datos[1],
