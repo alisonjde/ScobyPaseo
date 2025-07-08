@@ -4,11 +4,10 @@ require("logica/Admin.php");
 require("logica/Dueño.php");
 require("logica/Paseador.php");
 require("logica/Perro.php");
-require ("logica/Tamaño.php");
+require("logica/Tamaño.php");
 require("logica/Paseo.php");
 
-require ("logica/EstadoPaseador.php");
-require ("logica/Mensaje.php");
+require("logica/Mensaje.php");
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -48,13 +47,13 @@ require ("logica/Mensaje.php");
         "presentacion/sesionPaseador.php",
         "presentacion/sesionDueño.php",
         "presentacion/descargarPaseo.php",
-            "presentacion/paseador/consultarPaseador.php",
-            "presentacion/paseador/cambiarEstadoPaseador.php",
-            "presentacion/dueño/consultarDueño.php",
+        "presentacion/paseador/consultarPaseador.php",
+        "presentacion/paseador/cambiarEstadoPaseador.php",
+        "presentacion/dueño/consultarDueño.php",
         "presentacion/perro/consultarPerro.php",
         "presentacion/paseador/ofertaPaseo.php",
         "presentacion/perro/consultarPorDueño.php",
-       "presentacion/perro/crearPerro.php",
+        "presentacion/perro/crearPerro.php",
         "presentacion/paseador/crearPerro.php",
         "presentacion/paseito/consultarPaseo.php",
         "presentacion/paseito/agendarPaseo.php",
@@ -62,14 +61,14 @@ require ("logica/Mensaje.php");
         "presentacion/paseito/pedirPaseo.php",
         "presentacion/paseito/Info-PaseadorDueño.php",
         "presentacion/paseito/consultarPaseo_paseador.php",
-    "presentacion/paseito/consultarPaseoAdmin.php",
-    "presentacion/paseador/actualizarPaseador.php",
-    "presentacion/paseador/respuestaActualizarPaseador.php",
+        "presentacion/paseito/consultarPaseoAdmin.php",
+        "presentacion/paseador/actualizarPaseador.php",
+        "presentacion/paseador/respuestaActualizarPaseador.php",
         "presentacion/paseito/modificarTarifa.php",
-    "presentacion/paseito/respuestaTarifa.php",
-    "presentacion/mensaje/consultarMensaje.php",
-    "presentacion/mensaje/respuestaMensaje.php",
-);
+        "presentacion/paseito/respuestaTarifa.php",
+        "presentacion/mensaje/consultarMensaje.php",
+        "presentacion/mensaje/respuestaMensaje.php",
+    );
 
     if (!isset($_GET["pid"])) {
         include("presentacion/inicio.php");

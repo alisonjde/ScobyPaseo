@@ -124,6 +124,8 @@ class Perro
         while (($datos = $conexion->registro()) != null) {
             $dueño = new Dueño($datos[4], $datos[5], $datos[6]);
             $perro = new Perro($datos[0], $datos[1], $datos[2], $datos[3], $dueño);
+
+
             array_push($perros, $perro);
         }
 
