@@ -11,12 +11,13 @@ $rol = $_SESSION["rol"];
 
 include("presentacion/fondo.php");
 include("presentacion/" . $rol . "/menu" . ucfirst($rol) . ".php");
+
 ?>
 
 
 
 <body>
-
+    
     <div class="text-center py-3">
         <div class="container glass py-5">
             <h1 class="display-6">Nuestros Perros</h1>

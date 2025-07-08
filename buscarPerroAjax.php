@@ -32,23 +32,29 @@ if (count($perros) > 0) {
         }, $per->getIdDueño()->getId());
 
         $tamaño = htmlspecialchars($per->getIdTamaño());
-
-        echo '
-        <div class="col-md-4 col-lg-3 mb-4">
-            <div class="card card-perro h-100">
-                <img src="' . htmlspecialchars($per->getFoto()) . '" class="perro-img" alt="' . htmlspecialchars($per->getNombre()) . '" onerror="this.onerror=null; this.src=\'img/dog.jpg\';">
-                <div class="card-body">
-                    <h6>ID: ' . $idPerro . '</h6>
-                    <h5 class="card-title">' . $nombrePerro . '</h5>
-                    <span class="raza-badge">' . $tamaño . '</span>
-                    <div class="dueño-info">
-                        Dueño: ' . $idDueño . ' - ' . $nombreDueño . ' ' . $apellidoDueño . '
-                    </div>
-                </div>
+        
+       echo '
+<div class="col-md-4 col-lg-3 mb-4">
+    <div class="card card-perro h-100">
+        <img src="/ScoobyPaseo/ScobyPaseo/' . htmlspecialchars($per->getFoto()) . '" 
+             class="perro-img" 
+             alt="' . htmlspecialchars($per->getNombre()) . '" 
+             onerror="this.onerror=null; this.src=\'/ScoobyPaseo/ScobyPaseo/img/dog.jpg\';">
+        <div class="card-body">
+            <h6>ID: ' . $idPerro . '</h6>
+            <h5 class="card-title">' . $nombrePerro . '</h5>
+            <span class="raza-badge">' . $tamaño . '</span>
+            <div class="dueño-info">
+                Dueño: ' . $idDueño . ' - ' . $nombreDueño . ' ' . $apellidoDueño . '
             </div>
-        </div>';
+        </div>
+    </div>
+</div>';
+
+
+
+
     }
 } else {
     echo "<div class='alert alert-danger mt-3' role='alert'>No hay resultados</div>";
 }
-?>
