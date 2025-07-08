@@ -108,7 +108,7 @@ class PaseadorDAO
 {
     $condiciones = [];
     foreach ($filtros as $filtro) {
-        $condiciones[] = "(p.nombre LIKE '%$filtro%' OR p.descripcion LIKE '%$filtro%' OR p.apellido LIKE '%$filtro%' OR p.correo LIKE '%$filtro%' OR p.telefono LIKE '%$filtro%')";
+        $condiciones[] = "(p.nombre LIKE '%$filtro%' OR p.descripcion LIKE '%$filtro%' OR p.apellido LIKE '%$filtro%' OR p.correo LIKE '%$filtro%' OR p.telefono LIKE '%$filtro%' OR e.estado LIKE '%$filtro%')";
     }
 
     $consultaFiltros = implode(" AND ", $condiciones);
