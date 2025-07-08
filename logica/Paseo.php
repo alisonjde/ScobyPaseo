@@ -121,9 +121,8 @@ class Paseo
                 $paseador,
                 $estadoPaseo,
                 $perro
-                $paseador,
-                $estadoPaseo,
-                $perro
+                
+                
             );
             array_push($paseos, $paseo);
         }
@@ -163,7 +162,7 @@ class Paseo
         return $datos[0];
     }
 
-    public function buscar($filtros)
+    public function buscar2($filtros)
     {
         $conexion = new Conexion();
         $conexion->abrir();
