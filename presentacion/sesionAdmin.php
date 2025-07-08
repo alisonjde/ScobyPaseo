@@ -19,8 +19,8 @@ if ($_SESSION["rol"] != "admin") {
             <?php echo "<p style='color: yellow;'>Ruta de la imagen: " . $admin->getFoto() . "</p>"; ?>
 
             <img src="<?php echo $admin->getFoto(); ?>"
-                class="rounded-circle"
-                style="width: 100%; max-width: 150px;"
+                class="rounded"
+                style=" max-width: 180px;"
                 alt="Foto de <?php echo $admin->getNombre(); ?>"
                 onerror="this.onerror=null; this.src='img/default-profile.png';">
 
