@@ -1,8 +1,9 @@
 <?php
-require("logica/Paseo.php");
-require("logica/Dueño.php");
-require("logica/Perro.php");
-require("logica/EstadoPaseo.php");
+require_once("logica/Paseo.php");
+require_once("logica/Dueño.php");
+require_once("logica/Perro.php");
+require_once("logica/EstadoPaseo.php");
+require_once("logica/Paseador.php");
 
 $filtro = $_GET["filtro"];
 $id = $_GET["id"];

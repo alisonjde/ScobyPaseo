@@ -1,10 +1,8 @@
 <?php
 require_once("persistencia/Conexion.php");
 require_once("persistencia/PaseoDAO.php");
-require_once("logica/Paseador.php");
-require_once("logica/Dueño.php");
-require_once("logica/Perro.php");
-require_once("logica/EstadoPaseo.php");
+
+
 
 
 class Paseo
